@@ -1,0 +1,44 @@
+---
+title: BazarPro Hilfe
+description: Anleitungen für Veranstalter, Verkäufer und Besucher von BazarPro.
+template: splash
+hero:
+  tagline: Anleitungen rund um Second-Hand-Basare mit BazarPro – für Veranstalter, Verkäufer und alle, die BazarPro selbst betreiben.
+  image:
+    html: '<img src="/startseite-hero.png" width="1020" height="598" alt="Ein altes Fahrrad mit BazarPro-QR-Etikett wird an der Kasse mit dem Smartphone gescannt" />'
+  actions:
+    - text: Was ist BazarPro?
+      link: /erste-schritte/was-ist-bazarpro/
+      icon: right-arrow
+    - text: Zur App
+      link: https://bazarpro.de
+      icon: external
+      variant: minimal
+---
+
+import { CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+## Wobei können wir helfen?
+
+<CardGrid>
+  <LinkCard
+    title="Ich organisiere einen Basar"
+    description="Basar anlegen, Provision festlegen, Verkäufer zulassen."
+    href="/veranstalter/basar-anlegen/"
+  />
+  <LinkCard
+    title="Ich möchte etwas verkaufen"
+    description="Bei einem Basar anmelden, Artikel inserieren, Etiketten drucken."
+    href="/verkaeufer/artikel-inserieren/"
+  />
+  <LinkCard
+    title="Wie funktioniert BazarPro?"
+    description="Rollen, Ablauf und die Status eines Artikels im Überblick."
+    href="/erste-schritte/was-ist-bazarpro/"
+  />
+  <LinkCard
+    title="BazarPro selbst betreiben"
+    description="BazarPro ist Open Source (MIT). Die Selfhosting-Anleitung ist in Arbeit – bis dahin hilft das README im Code."
+    href="https://github.com/BazarPro/core#readme"
+  />
+</CardGrid>

@@ -1,0 +1,41 @@
+---
+title: Was ist BazarPro?
+description: Rollen, Ablauf und die Status eines Artikels im Überblick.
+sidebar:
+  order: 1
+---
+
+import { Aside, LinkCard } from '@astrojs/starlight/components';
+
+BazarPro ist eine Plattform für **Second-Hand-Basare**, bei denen Verkäufer ihre Sachen abgeben und der Veranstalter sie verkauft – zum Beispiel Kinderkleiderbasare, Fahrradbörsen oder Flohmärkte. Statt Zettellisten und handgeschriebener Etiketten bekommt jeder Artikel einen QR-Code. Beim Basar wird nur noch gescannt, die Abrechnung entsteht automatisch.
+
+BazarPro läuft im Browser, auf dem Smartphone genauso wie am Computer. Eine Kasse oder andere Hardware ist nicht nötig.
+
+## Wer macht was?
+
+| Rolle | Aufgaben |
+| --- | --- |
+| **Veranstalter** | Legt den Basar an, legt Provision und Regeln fest, nimmt Ware an, verkauft an der Kasse und erstellt die Abrechnung. Kann Helfer als Co-Organisatoren einladen. |
+| **Verkäufer** | Meldet sich bei einem Basar an, inseriert Artikel mit Foto und Preis, druckt die QR-Etiketten und holt am Ende Geld und unverkaufte Ware ab. In der App heißt diese Rolle **Teilnehmer**. |
+| **Besucher** | Findet Basare, sieht die Angebote vorab und scannt vor Ort den QR-Code eines Artikels, um Preis und Standort zu sehen. Braucht kein Konto. |
+
+<Aside type="tip" title="Rolle wechseln">
+  Ein Konto kann beides sein: Veranstalter und Verkäufer. Unten in der Seitenleiste der App wechselst du unter **Rolle wechseln** zwischen **Veranstalter** und **Teilnehmer**. Je nach Rolle siehst du andere Menüpunkte.
+</Aside>
+
+## Der Weg eines Artikels
+
+1. **Inserieren** – Der Verkäufer legt den Artikel an und ordnet ihn einem Basar zu. Status: **Angemeldet**.
+2. **Etikett anbringen** – Der Verkäufer druckt das QR-Etikett aus und befestigt es am Artikel.
+3. **Warenannahme** – Beim Basar scannt der Veranstalter das Etikett. Status: **Erhältlich**. Ab jetzt kann der Verkäufer den Artikel nicht mehr bearbeiten.
+4. **Verkauf** – An der Kasse wird das Etikett gescannt und verkauft. Status: **Verkauft**. Der Verkäufer sieht das sofort.
+5. **Abrechnung & Rückgabe** – Nach dem Basar stehen Umsatz, Provision und Auszahlung fest. Was nicht verkauft wurde, bekommt der Verkäufer zurück. Status: **Zurückgegeben**.
+
+<Aside>
+  Auf dem Etikett steht kein Preis. So kann der Verkäufer während des Basars noch einen Rabatt geben, ohne ein neues Etikett zu drucken.
+</Aside>
+
+## Weiter geht's
+
+<LinkCard title="Einen Basar anlegen" href="/veranstalter/basar-anlegen/" />
+<LinkCard title="Einen Artikel inserieren" href="/verkaeufer/artikel-inserieren/" />

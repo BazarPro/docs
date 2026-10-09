@@ -1,0 +1,28 @@
+/* BazarPro brand colors (primary from the app: oklch(0.488 0.243 264.376)) */
+:root {
+  --sl-color-accent-low: #131a4f;
+  --sl-color-accent: #4f6bff;
+  --sl-color-accent-high: #c9d3ff;
+}
+
+:root[data-theme='light'] {
+  --sl-color-accent-low: #dfe5ff;
+  --sl-color-accent: #1d3fe0;
+  --sl-color-accent-high: #0f1f73;
+}
+
+/* Screenshots: subtle frame so white app pages stand out from the page */
+.sl-markdown-content img {
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 0.75rem;
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.08);
+}
+
+/* Hero: show the whole app scene instead of a square crop */
+.hero .hero-html img {
+  display: block;
+  width: min(100%, 34rem);
+  height: auto;
+  border-radius: 1.25rem;
+  box-shadow: 0 12px 40px rgb(0 0 0 / 0.18);
+}
