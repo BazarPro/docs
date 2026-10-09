@@ -1,4 +1,4 @@
-# BazarPro Hilfe
+# BazarPro Docs
 
 Dokumentation für [BazarPro](https://github.com/BazarPro/core): Anleitungen für Veranstalter, Verkäufer und Besucher sowie für den eigenen Betrieb (Selfhosting). Live unter **https://docs.bazarpro.de**.
 

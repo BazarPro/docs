@@ -6,7 +6,7 @@ export default defineConfig({
   site: 'https://docs.bazarpro.de',
   integrations: [
     starlight({
-      title: 'BazarPro Hilfe',
+      title: 'BazarPro Docs',
       description:
         'Anleitungen für Veranstalter, Verkäufer und Besucher von BazarPro – und für alle, die BazarPro selbst betreiben.',
       logo: { src: './src/assets/logo.svg' },
