@@ -31,6 +31,10 @@ export default defineConfig({
           items: [{ autogenerate: { directory: 'verkaeufer' } }],
         },
         {
+          label: 'Ratgeber',
+          items: [{ autogenerate: { directory: 'ratgeber' } }],
+        },
+        {
           label: 'Selbst hosten',
           items: [{ autogenerate: { directory: 'selbst-hosten' } }],
         },
