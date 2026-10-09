@@ -30,6 +30,10 @@ export default defineConfig({
           label: 'Für Verkäufer',
           items: [{ autogenerate: { directory: 'verkaeufer' } }],
         },
+        {
+          label: 'Selbst hosten',
+          items: [{ autogenerate: { directory: 'selbst-hosten' } }],
+        },
       ],
     }),
   ],
