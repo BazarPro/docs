@@ -30,3 +30,7 @@ Die Demo-Konten stammen aus dem Seed von BazarPro (`convex/seed.ts`, Passwort `1
 ## Deployment
 
 Pushes auf `main` bauen die Seite und veröffentlichen sie über GitHub Pages (`.github/workflows/deploy.yml`).
+
+## Lizenz
+
+[MIT](./LICENSE) – wie BazarPro selbst.
