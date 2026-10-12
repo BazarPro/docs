@@ -114,10 +114,10 @@ async function main() {
     await page.context().close();
   }
 
-  // Verkäufer
+  // Verkäufer, der dem Basar noch nicht beigetreten ist (der Demo-Verkäufer ist es schon)
   {
     const page = await newPage(browser);
-    await login(page, 'seller@bazarpro.de');
+    await login(page, 'kaeufer1@bazarpro.de');
     await open(page, `/public-events/${sellerEvent._id}`);
     await shot(page, 'basar-seite-verkaeufer');
     const join = page.getByRole('button', { name: /Als Verkäufer beitreten/ });
@@ -130,8 +130,15 @@ async function main() {
       await shot(dialog, 'basar-beitreten-dialog');
       await page.keyboard.press('Escape');
     } else {
-      console.warn('! Demo-Verkäufer ist dem Event bereits beigetreten, Dialog übersprungen');
+      console.warn('! Demo-Nutzer ist dem Event bereits beigetreten, Dialog übersprungen');
     }
+    await page.context().close();
+  }
+
+  // Verkäufer mit Artikeln
+  {
+    const page = await newPage(browser);
+    await login(page, 'seller@bazarpro.de');
     await open(page, '/products/new');
     await shot(page.locator('form').first(), 'artikel-formular');
     await open(page, '/my-products');
