@@ -10,11 +10,28 @@ import { Aside, Steps } from '@astrojs/starlight/components';
 
 BazarPro ist Open Source (MIT). Mit Docker Compose läuft es auf einem einzelnen Server – mit eigener Datenbank, HTTPS über Let's Encrypt und ohne dass du etwas selbst bauen musst. Plane für die Einrichtung etwa eine halbe Stunde ein.
 
+Die Anleitung beschreibt BazarPro **ab Version 1.7**. Ab dieser Version ist eine selbst gehostete Instanz auf einen Verein zugeschnitten: mit eigenem Namen, Logo und eigenen Rechtstexten.
+
 **Du brauchst:**
 
 - einen Linux-Server mit [Docker](https://docs.docker.com/engine/install/) und Docker Compose, mindestens 2 GB RAM, die Ports **80** und **443** müssen erreichbar sein
 - eine Domain, bei der du DNS-Einträge anlegen kannst
 - ein E-Mail-Postfach mit SMTP-Zugang – BazarPro verschickt darüber die Bestätigungscodes bei Registrierung und Passwort-Reset
+
+## Ein Verein oder eine Plattform?
+
+BazarPro kennt zwei Betriebsarten. Du wählst sie mit **`BAZARPRO_MODE`** in der `.env`:
+
+| | `single` (Standard) | `platform` |
+| --- | --- | --- |
+| **Für wen** | ein Verein, eine Kita, eine Schule mit eigenen Basaren | viele Veranstalter auf einer Seite, wie bazarpro.de |
+| **Startseite** | Name, Logo und Basare des Vereins | Werbeseite von BazarPro mit allen öffentlichen Basaren |
+| **Basare anlegen** | nur Administratoren | jeder Nutzer |
+| **Freigabe öffentlicher Basare** | entfällt | durch Administratoren |
+| **Rolle „Veranstalter“** | nur für Administratoren und das Team eines Basars | für alle |
+| **Name in Kopfzeile und E-Mails** | Name des Vereins | BazarPro |
+
+Für die allermeisten Installationen ist `single` richtig. Die Daten sind in beiden Betriebsarten gleich, du kannst später wechseln.
 
 ## Was läuft auf dem Server?
 
@@ -51,8 +68,10 @@ BazarPro ist Open Source (MIT). Mit Docker Compose läuft es auf einem einzelnen
 
    - **`DOMAIN`** – deine Domain ohne `https://`, z. B. `basar.example.org`
    - **`ACME_EMAIL`** – deine E-Mail-Adresse, Let's Encrypt warnt dich dort vor ablaufenden Zertifikaten
-   - **`BAZARPRO_VERSION`** – die Version, die du installieren möchtest. Alle Versionen findest du unter [Releases](https://github.com/BazarPro/core/releases).
-   - **`AUTH_SMTP_…`** und **`AUTH_EMAIL_FROM`** – die Zugangsdaten deines E-Mail-Postfachs
+   - **`BAZARPRO_VERSION`** – die Version, die du installieren möchtest, mindestens `v1.7.0`. Alle Versionen findest du unter [Releases](https://github.com/BazarPro/core/releases).
+   - **`BAZARPRO_MODE`** – `single` für einen Verein (Standard) oder `platform`, siehe oben
+   - **`ADMIN_EMAIL`** – die E-Mail-Adresse, mit der du dich gleich registrierst. Dieses Konto wird automatisch Administrator.
+   - **`AUTH_SMTP_…`** und **`AUTH_EMAIL_FROM`** – die Zugangsdaten deines E-Mail-Postfachs. Die Adresse in `AUTH_EMAIL_FROM` muss zu diesem Postfach passen, sonst landen die Mails im Spam. Als Absendername verwendet BazarPro im Modus `single` den Namen deines Vereins aus den Einstellungen.
 
 4. **BazarPro starten.**
 
@@ -68,15 +87,17 @@ BazarPro ist Open Source (MIT). Mit Docker Compose läuft es auf einem einzelnen
 
    Am Ende steht dort **„Convex ist eingerichtet“**.
 
-5. **Konto anlegen.** Öffne deine Domain im Browser, klicke auf **Registrieren** und bestätige deine E-Mail-Adresse mit dem Code aus der Bestätigungsmail.
+5. **Konto anlegen.** Öffne deine Domain im Browser, klicke auf **Registrieren** – mit der Adresse aus `ADMIN_EMAIL` – und bestätige sie mit dem Code aus der Bestätigungsmail. Sobald die Adresse bestätigt ist, ist dein Konto Administrator. Nach einem Neuladen der Seite findest du im Rollenwechsel der Seitenleiste den Bereich **Admin**.
 
-6. **Dich zum Administrator machen.** Administratoren geben öffentliche Basare frei und verwalten Nutzer:
+   Erst nach der Bestätigung wird das Konto Administrator. So kann niemand die Adresse vorher für sich registrieren.
+
+6. **Weitere Administratoren** ernennst du mit:
 
    ```bash
-   docker compose -f docker-compose.selfhost.yml run --rm convex-init admin du@example.org
+   docker compose -f docker-compose.selfhost.yml run --rm convex-init admin vorstand@example.org
    ```
 
-   Nach einem Neuladen der Seite erscheint in der Seitenleiste der Bereich **Admin**.
+   Das Konto muss dafür schon registriert sein.
 
 </Steps>
 
@@ -85,6 +106,39 @@ BazarPro ist Open Source (MIT). Mit Docker Compose läuft es auf einem einzelnen
   - Let's Encrypt prüft die Domain über Port 80. Eine Firewall darf ihn nicht blockieren.
   - Fehlermeldungen beim Holen der Zertifikate zeigt `docker compose -f docker-compose.selfhost.yml logs traefik`.
 </Aside>
+
+## Nach der Installation: deinen Verein einrichten
+
+Bevor du den ersten Basar anlegst, richte als Administrator zwei Dinge ein:
+
+<Steps>
+
+1. **Einstellungen** (Admin › Einstellungen):
+
+   - **Name** und **Logo** deines Vereins erscheinen in der Kopfzeile, auf der Startseite und in allen E-Mails.
+   - Die **Kontakt-E-Mail** steht im Footer und auf der Kontaktseite.
+   - Unter **Startseite** wählst du, ob die Startseite eine Übersicht aller Basare zeigt oder direkt zum laufenden bzw. nächsten Basar führt.
+   - **Webanalyse mit Plausible** ist optional, siehe unten.
+
+2. **Rechtstexte** (Admin › Rechtstexte): **Impressum, Datenschutzerklärung und AGB** sind Pflicht, und verantwortlich bist du als Betreiber. Solange du keinen Text gespeichert hast, zeigt BazarPro auf diesen Seiten den Hinweis „Diese Seite wurde noch nicht eingerichtet“.
+
+   Mit **Vorlage laden** bekommst du einen Entwurf, in dem du alle Platzhalter in doppelten eckigen Klammern ersetzt, z. B. `[[Name des Vereins]]`. Die Übersicht im Admin-Bereich warnt, solange Platzhalter übrig sind. Jede Änderung wird als Version gespeichert.
+
+</Steps>
+
+<Aside type="caution" title="Vorlagen sind keine Rechtsberatung">
+  Die Vorlagen für Datenschutzerklärung und AGB stammen von der Plattform bazarpro.de. Sie müssen an deinen Verein angepasst werden – die AGB zum Beispiel, weil ihr als Verein selbst Veranstalter seid. Lass die Texte vor der Veröffentlichung rechtlich prüfen.
+</Aside>
+
+Danach legst du unter der Rolle **Veranstalter** deinen ersten Basar an, siehe [Einen Basar anlegen](/veranstalter/basar-anlegen/). Im Modus `single` ist ein öffentlicher Basar sofort sichtbar, eine Freigabe ist nicht nötig.
+
+## Webanalyse mit Plausible (optional)
+
+BazarPro kann die Besucherzahlen mit [Plausible Analytics](https://plausible.io) erfassen – ohne Cookies. Plausible ist nicht in BazarPro enthalten: Du brauchst eine eigene Plausible-Installation ([Community Edition](https://github.com/plausible/community-edition)) oder ein Konto bei plausible.io.
+
+Eingeschaltet wird die Webanalyse unter **Admin › Einstellungen › Webanalyse mit Plausible**: Domain und Plausible-Server eintragen, aktivieren, speichern. Ein Neustart ist nicht nötig. Alternativ kannst du `PLAUSIBLE_DOMAIN` und `PLAUSIBLE_API_HOST` in der `.env` setzen. Die Einstellungen im Admin-Bereich haben Vorrang.
+
+Steht in deiner Datenschutzerklärung die Zeile `{{webanalyse}}` (in der Vorlage ist sie enthalten), fügt BazarPro dort automatisch einen Abschnitt zu Plausible ein, solange die Webanalyse aktiv ist. Nutzt du plausible.io, brauchst du zusätzlich einen Vertrag zur Auftragsverarbeitung mit dem Anbieter.
 
 ## Erst einmal ausprobieren?
 
@@ -107,6 +161,8 @@ Optional können sich Nutzer mit ihrem GitHub- oder Google-Konto anmelden. Lege 
 
 Client-ID und Secret kommen in die `.env` (`AUTH_GITHUB_ID`, `AUTH_GITHUB_SECRET` bzw. `AUTH_GOOGLE_ID`, `AUTH_GOOGLE_SECRET`). Danach BazarPro neu starten, siehe unten.
 
+Erwähne die Anmeldung über GitHub oder Google auch in deiner Datenschutzerklärung.
+
 ## Einstellungen ändern und aktualisieren
 
 Nach jeder Änderung an der `.env` und für ein Update auf eine neue Version – vorher `BAZARPRO_VERSION` anpassen:
@@ -117,6 +173,10 @@ docker compose -f docker-compose.selfhost.yml up -d
 ```
 
 `convex-init` läuft dabei erneut und spielt die neue Version der Funktionen ein. Deine Daten bleiben erhalten.
+
+<Aside title="Update von einer Version vor 1.7">
+  Ergänze in deiner `.env` die neuen Einträge `BAZARPRO_MODE` und `ADMIN_EMAIL`, siehe die aktuelle [Vorlage](https://github.com/BazarPro/core/blob/main/.env.selfhost.example), und lade auch die neue `docker-compose.selfhost.yml` herunter. Fehlt `BAZARPRO_MODE`, startet BazarPro im Modus `single`. Danach richtest du Einstellungen und Rechtstexte ein wie oben beschrieben.
+</Aside>
 
 ## Datensicherung
 
