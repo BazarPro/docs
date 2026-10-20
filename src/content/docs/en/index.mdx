@@ -1,0 +1,59 @@
+---
+title: BazarPro Docs
+description: Guides for children's clothing bazaars, bike sales and flea markets with BazarPro – for organizers, sellers and visitors.
+template: splash
+hero:
+  tagline: Guides for second-hand bazaars with BazarPro – for organizers, sellers and everyone who runs BazarPro themselves.
+  image:
+    html: '<img src="/startseite-hero.png" width="1020" height="598" alt="An old bike with a BazarPro QR label is scanned with a smartphone at the cash desk" />'
+  actions:
+    - text: What is BazarPro?
+      link: /en/erste-schritte/was-ist-bazarpro/
+      icon: right-arrow
+    - text: Open the app
+      link: https://bazarpro.de
+      icon: external
+      variant: minimal
+---
+
+import { CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+## How can we help?
+
+<CardGrid>
+  <LinkCard
+    title="I'm organizing a bazaar"
+    description="Create a bazaar, set the commission, admit sellers."
+    href="/en/veranstalter/basar-anlegen/"
+  />
+  <LinkCard
+    title="The bazaar day"
+    description="Intake, cash desk with a cart, settlement and cash count."
+    href="/en/veranstalter/basartag/"
+  />
+  <LinkCard
+    title="I want to sell something"
+    description="Join a bazaar, list items, print labels."
+    href="/en/verkaeufer/artikel-inserieren/"
+  />
+  <LinkCard
+    title="How does BazarPro work?"
+    description="Roles, process and the statuses of an item at a glance."
+    href="/en/erste-schritte/was-ist-bazarpro/"
+  />
+  <LinkCard
+    title="Guide: organizing a bike sale"
+    description="From venue and advertising to cash desk and settlement – with a checklist."
+    href="/en/ratgeber/fahrradboerse-organisieren/"
+  />
+  <LinkCard
+    title="Guide: organizing a kids' bazaar"
+    description="Plan a children's clothing or toy bazaar: intake, sorting, selling and settlement."
+    href="/en/ratgeber/kinderbasar-organisieren/"
+  />
+  <LinkCard
+    title="Run BazarPro yourself"
+    description="BazarPro is open source (MIT) and runs with Docker on your own server."
+    href="/en/selbst-hosten/"
+  />
+</CardGrid>
