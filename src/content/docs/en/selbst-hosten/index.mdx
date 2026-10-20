@@ -1,0 +1,216 @@
+---
+title: Self-hosting BazarPro
+description: Run BazarPro with Docker Compose on your own server – with HTTPS, your own database and email delivery.
+sidebar:
+  label: Installation
+  order: 1
+---
+
+import { Aside, Steps } from '@astrojs/starlight/components';
+
+BazarPro is open source (MIT). With Docker Compose it runs on a single server – with its own database, HTTPS via Let's Encrypt, and without you having to build anything. Allow about half an hour for the setup.
+
+This guide describes BazarPro **from version 1.7**. From this version on, a self-hosted instance is tailored to one association: with its own name, logo and legal texts.
+
+**You need:**
+
+- a Linux server with [Docker](https://docs.docker.com/engine/install/) and Docker Compose, at least 2 GB RAM, with ports **80** and **443** reachable
+- a domain where you can create DNS records
+- an email account with SMTP access – BazarPro uses it to send the confirmation codes for sign-up and password reset
+
+## One association or a platform?
+
+BazarPro has two modes. You choose them with **`BAZARPRO_MODE`** in the `.env`:
+
+| | `single` (default) | `platform` |
+| --- | --- | --- |
+| **For whom** | one association, daycare or school with its own bazaars | many organizers on one site, like bazarpro.de |
+| **Home page** | name, logo and bazaars of the association | BazarPro's marketing page with all public bazaars |
+| **Creating bazaars** | administrators only | every user |
+| **Approval of public bazaars** | not needed | by administrators |
+| **“Organizer” role** | only for administrators and a bazaar's team | for everyone |
+| **Name in header and emails** | name of the association | BazarPro |
+
+For the vast majority of installations, `single` is right. The data is the same in both modes, so you can switch later.
+
+## What runs on the server?
+
+| Service | Purpose |
+| --- | --- |
+| **traefik** | Receives all requests and fetches the HTTPS certificates from Let's Encrypt. |
+| **app** | The BazarPro website. |
+| **convex-backend** | Database, file storage and server logic ([Convex](https://www.convex.dev/), self-hosted). The data lives in a Docker volume. |
+| **convex-init** | Runs once at every start: deploys the BazarPro functions to the backend and passes on your settings. Then it exits. |
+
+## Installation
+
+<Steps>
+
+1. **Create DNS records.** Three names must point to your server's IP address. Using the domain `basar.example.org` as an example:
+
+   | Name | Purpose |
+   | --- | --- |
+   | `basar.example.org` | the BazarPro website |
+   | `convex.basar.example.org` | the backend API |
+   | `convex-site.basar.example.org` | sign-in (e.g. callbacks from GitHub or Google) |
+
+   The easiest way is an A record (and an AAAA record for IPv6) for `basar.example.org` and a CNAME to `basar.example.org` for the other two.
+
+2. **Download the files.** On the server, in a new folder:
+
+   ```bash
+   mkdir bazarpro && cd bazarpro
+   curl -O https://raw.githubusercontent.com/BazarPro/core/main/docker-compose.selfhost.yml
+   curl -o .env https://raw.githubusercontent.com/BazarPro/core/main/.env.selfhost.example
+   ```
+
+3. **Enter your settings.** Open the `.env` file and enter at least:
+
+   - **`DOMAIN`** – your domain without `https://`, e.g. `basar.example.org`
+   - **`ACME_EMAIL`** – your email address; Let's Encrypt warns you there about expiring certificates
+   - **`BAZARPRO_VERSION`** – the version you want to install, at least `v1.7.0`. All versions are listed under [Releases](https://github.com/BazarPro/core/releases).
+   - **`BAZARPRO_MODE`** – `single` for one association (default) or `platform`, see above
+   - **`ADMIN_EMAIL`** – the email address you'll sign up with in a moment. This account automatically becomes administrator.
+   - **`AUTH_SMTP_…`** and **`AUTH_EMAIL_FROM`** – the credentials of your email account. The address in `AUTH_EMAIL_FROM` must match this account, otherwise the emails end up in spam. In `single` mode, BazarPro uses your association's name from the settings as the sender name.
+
+4. **Start BazarPro.**
+
+   ```bash
+   docker compose -f docker-compose.selfhost.yml up -d
+   ```
+
+   On the first start it takes one or two minutes until all images are pulled and `convex-init` is done. You can follow the progress with:
+
+   ```bash
+   docker compose -f docker-compose.selfhost.yml logs -f convex-init
+   ```
+
+   At the end it says **“Convex ist eingerichtet”** (Convex is set up).
+
+5. **Create your account.** Open your domain in the browser, click **Sign up** – with the address from `ADMIN_EMAIL` – and confirm it with the code from the confirmation email. As soon as the address is confirmed, your account is administrator. After reloading the page, you find the **Admin** area in the role switcher in the sidebar.
+
+   The account only becomes administrator after confirmation. That way nobody can register the address for themselves beforehand.
+
+6. **More administrators** are added with:
+
+   ```bash
+   docker compose -f docker-compose.selfhost.yml run --rm convex-init admin board@example.org
+   ```
+
+   The account must already be registered.
+
+</Steps>
+
+<Aside type="caution" title="Page doesn't load or shows a certificate error?">
+  - Check that all three DNS names point to your server, e.g. with `dig +short convex.basar.example.org`.
+  - Let's Encrypt checks the domain via port 80. A firewall must not block it.
+  - Errors while fetching certificates are shown by `docker compose -f docker-compose.selfhost.yml logs traefik`.
+</Aside>
+
+## After the installation: set up your association
+
+Before you create the first bazaar, set up two things as an administrator:
+
+<Steps>
+
+1. **Settings** (Admin › Settings):
+
+   - **Name** and **logo** of your association appear in the header, on the home page and in all emails.
+   - The **contact email** is shown in the footer and on the contact page.
+   - Under **Home page** you choose whether the home page shows an overview of all bazaars or leads straight to the current or next bazaar.
+   - **Web analytics with Plausible** is optional, see below.
+
+2. **Legal texts** (Admin › Legal texts): **imprint, privacy policy and terms** are mandatory, and you as the operator are responsible for them. As long as you haven't saved a text, BazarPro shows “This page has not been set up yet” on these pages.
+
+   **Load template** gives you a draft in which you replace all placeholders in double square brackets, e.g. `[[Name des Vereins]]`. The admin overview warns you as long as placeholders are left. Every change is saved as a version.
+
+</Steps>
+
+<Aside type="caution" title="Templates are not legal advice">
+  The templates for privacy policy and terms come from the bazarpro.de platform and are written in German for German law. They must be adapted to your association – the terms, for example, because your association is the organizer itself. Have the texts checked legally before publishing.
+</Aside>
+
+Then, in the **Organizer** role, create your first bazaar, see [Create a bazaar](/en/veranstalter/basar-anlegen/). In `single` mode, a public bazaar is visible immediately; no approval is needed.
+
+BazarPro shows the app in German or English depending on the visitor's browser; everyone can switch the language themselves.
+
+## Web analytics with Plausible (optional)
+
+BazarPro can count visitors with [Plausible Analytics](https://plausible.io) – without cookies. Plausible isn't included in BazarPro: you need your own Plausible installation ([Community Edition](https://github.com/plausible/community-edition)) or an account at plausible.io.
+
+Turn web analytics on under **Admin › Settings › Web analytics with Plausible**: enter the domain and Plausible server, activate, save. No restart needed. Alternatively, you can set `PLAUSIBLE_DOMAIN` and `PLAUSIBLE_API_HOST` in the `.env`. The settings in the admin area take precedence.
+
+If your privacy policy contains the line `{{webanalyse}}` (the template includes it), BazarPro automatically inserts a section about Plausible there while web analytics is active. If you use plausible.io, you also need a data processing agreement with the provider.
+
+## Just want to try it?
+
+If you only want to test BazarPro, you can load sample data: several bazaars, items and accounts, including `admin@bazarpro.de`, `user1@bazarpro.de` (organizer) and `seller@bazarpro.de` (seller), all with the password `123456`.
+
+```bash
+docker compose -f docker-compose.selfhost.yml run --rm convex-init seed
+```
+
+<Aside type="danger">
+  Never load the sample data on an instance you actually use: the accounts have a publicly known password.
+</Aside>
+
+## Sign-in with GitHub or Google
+
+Optionally, users can sign in with their GitHub or Google account. Create an OAuth app with the provider and enter as the callback URL:
+
+- GitHub: `https://convex-site.<DOMAIN>/api/auth/callback/github`
+- Google: `https://convex-site.<DOMAIN>/api/auth/callback/google`
+
+Client ID and secret go into the `.env` (`AUTH_GITHUB_ID`, `AUTH_GITHUB_SECRET` or `AUTH_GOOGLE_ID`, `AUTH_GOOGLE_SECRET`). Then restart BazarPro, see below.
+
+Mention sign-in via GitHub or Google in your privacy policy as well.
+
+## Changing settings and updating
+
+After every change to the `.env` and for an update to a new version – adjust `BAZARPRO_VERSION` first:
+
+```bash
+docker compose -f docker-compose.selfhost.yml pull
+docker compose -f docker-compose.selfhost.yml up -d
+```
+
+`convex-init` runs again and deploys the new version of the functions. Your data is kept.
+
+<Aside title="Updating from a version before 1.7">
+  Add the new entries `BAZARPRO_MODE` and `ADMIN_EMAIL` to your `.env`, see the current [template](https://github.com/BazarPro/core/blob/main/.env.selfhost.example), and also download the new `docker-compose.selfhost.yml`. If `BAZARPRO_MODE` is missing, BazarPro starts in `single` mode. Then set up settings and legal texts as described above.
+</Aside>
+
+## Backup
+
+All data – accounts, bazaars, items and images – lives in the Docker volume `bazarpro_convex_data`. Create a full backup as a ZIP file like this:
+
+```bash
+docker compose -f docker-compose.selfhost.yml run --rm -T --entrypoint sh convex-init -c \
+  'export CONVEX_SELF_HOSTED_ADMIN_KEY=$(cat /keys/admin_key) &&
+   npx convex export --include-file-storage --path /tmp/backup.zip >&2 && cat /tmp/backup.zip' \
+  > backup-$(date +%F).zip
+```
+
+Keep the backup somewhere other than the server. Ideally, set up a daily cron job for it.
+
+**Restoring:** The following command replaces **all** current data with the state of the backup:
+
+```bash
+docker compose -f docker-compose.selfhost.yml run --rm -T -v "$PWD/backup-2026-10-09.zip:/tmp/backup.zip:ro" \
+  --entrypoint sh convex-init -c \
+  'export CONVEX_SELF_HOSTED_ADMIN_KEY=$(cat /keys/admin_key) && npx convex import --replace-all --yes /tmp/backup.zip'
+```
+
+## Convex dashboard (optional)
+
+For a direct look into the database there's the Convex dashboard. It needs another DNS name, `convex-dashboard.<DOMAIN>`:
+
+```bash
+docker compose -f docker-compose.selfhost.yml --profile dashboard up -d
+# Admin key for signing in to the dashboard:
+docker compose -f docker-compose.selfhost.yml exec convex-backend ./generate_admin_key.sh
+```
+
+<Aside type="caution">
+  The admin key gives full access to all data. Don't share it.
+</Aside>

@@ -1,0 +1,42 @@
+---
+title: What is BazarPro?
+description: Roles, process and the statuses of an item at a glance.
+sidebar:
+  order: 1
+---
+
+import { Aside, LinkCard } from '@astrojs/starlight/components';
+
+BazarPro is a platform for **second-hand bazaars** where sellers drop off their things and the organizer sells them – for example children's clothing bazaars, bike sales, ski bazaars or flea markets. Instead of paper lists and handwritten labels, every item gets a QR code. At the bazaar, everything is just scanned, and the settlement is created automatically.
+
+BazarPro runs in the browser, on a smartphone just as well as on a computer. No till or other hardware is needed. The app is available in **German and English**: choose the language in the menu at the top right or at the very bottom of every page. Everyone gets emails in their own language.
+
+## Who does what?
+
+| Role | Tasks |
+| --- | --- |
+| **Organizer** | Creates the bazaar, sets the commission and rules, accepts items, sells at the cash desk and settles up. Makes participants **helpers** who work at intake, cash desk and settlement. |
+| **Seller** | Joins a bazaar, gets a **seller number** there, lists items with a price and – depending on the bazaar – a photo, prints the QR labels and picks up money and unsold items at the end. In the app, this role is called **Participant**. |
+| **Visitor** | Finds bazaars, browses the items in advance and scans an item's QR code on site to see its price and location. Doesn't need an account. |
+
+<Aside type="tip" title="Switching roles">
+  One account can be both: organizer and seller. At the bottom of the app's sidebar, use **Switch role** to change between **Organizer** and **Participant**. You see different menu items depending on the role.
+</Aside>
+
+## The journey of an item
+
+1. **Listing** – The seller creates the item and assigns it to a bazaar. Status: **Registered**.
+2. **Attaching the label** – The seller prints the QR label and attaches it to the item. The evening before the bazaar, they get an email with the drop-off time, the location and their seller number.
+3. **Intake** – At the bazaar, the organizer scans the label. Status: **Available**. From now on, the seller can no longer edit the item.
+4. **Sale** – At the cash desk, all items of a buyer are scanned into a cart and sold together. Status: **Sold**. The seller sees this immediately.
+5. **Settlement & return** – After the bazaar, sales, commission, any intake fee and the payout are calculated. BazarPro reminds the seller by email to pick up. Whatever wasn't sold goes back to them. Status: **Returned**.
+
+<Aside>
+  The label shows the QR code, title, seller number and – if given – the size. BazarPro only prints the price if the organizer turns that on and doesn't allow discounts. That way, at bazaars with discounts, the seller can still lower the price without printing a new label.
+</Aside>
+
+## Next steps
+
+<LinkCard title="Create a bazaar" href="/en/veranstalter/basar-anlegen/" />
+<LinkCard title="The bazaar day" href="/en/veranstalter/basartag/" />
+<LinkCard title="List an item" href="/en/verkaeufer/artikel-inserieren/" />

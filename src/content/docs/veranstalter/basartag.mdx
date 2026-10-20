@@ -1,0 +1,81 @@
+---
+title: Der Basartag
+description: Verkäufer informieren, Helfer einteilen, Ware annehmen, an der Kasse mit Warenkorb verkaufen, abrechnen und den Kassensturz machen.
+sidebar:
+  order: 2
+---
+
+import { Aside, Steps } from '@astrojs/starlight/components';
+
+Diese Seite zeigt, was du in BazarPro vor, während und nach dem Basar tust. Wie du den Basar planst und bewirbst, steht in den Ratgebern zur [Fahrradbörse](/ratgeber/fahrradboerse-organisieren/) und zum [Kinderbasar](/ratgeber/kinderbasar-organisieren/).
+
+## Vorher: Verkäufer informieren und Helfer einteilen
+
+**Nachricht an Verkäufer.** Unter **Teilnehmer & Helfer** schreibst du mit **Nachricht an Verkäufer** allen deinen Verkäufern auf einmal, zum Beispiel „Abgabe erst ab 9 Uhr“. Du wählst, wer sie bekommt: alle, nur Verkäufer mit abgegebenen Artikeln oder nur die, die noch etwas abholen müssen. Die Nachricht geht per Mail raus und steht auf der Basar-Seite der Verkäufer.
+
+- Bis zu **5 Nachrichten pro Basar und Tag**.
+- **Wichtig** markierte Nachrichten erreichen auch Verkäufer, die Nachrichten vom Veranstalter abbestellt haben. Davon ist eine pro Tag möglich.
+
+Die Mail am Vorabend und die Erinnerung zur Abholung verschickt BazarPro von selbst, siehe [Automatische Mails an Verkäufer](/veranstalter/basar-anlegen/#automatische-mails-an-verkäufer).
+
+**Helfer.** Unter **Teilnehmer & Helfer** machst du Teilnehmer mit **Zum Helfer ernennen** zu Helfern, oder du suchst sie über **Helfer hinzufügen** nach Name, E-Mail oder Nummer. Helfer brauchen ein eigenes Konto. Sie können Ware annehmen, an der Kasse verkaufen, abrechnen sowie QR-Codes und Rechnungen drucken. Einstellungen ändern oder den Basar löschen können sie nicht.
+
+## Annahme
+
+Die Annahme läuft im **Produkt-Management** deines Basars.
+
+<Steps>
+
+1. **Etikett oder Ausweis scannen.** Mit **QR-Code scannen** scannst du das Etikett eines Artikels oder den **digitalen Ausweis** eines Verkäufers. Beim Ausweis siehst du alle angemeldeten Artikel dieses Verkäufers.
+
+2. **Annehmen.** Einzelne Artikel nimmst du mit **Annehmen** an, alle Artikel eines Verkäufers auf einmal mit **Alle annehmen**. Dabei kannst du einen **Standort** zuordnen und eine **interne Notiz** hinterlegen, etwa „Schlüssel an Haken 12“. Die Notiz sehen nur du und deine Helfer.
+
+3. **Fehlende Etiketten drucken.** Über **Etiketten (PDF)** druckst du die Etiketten eines Verkäufers direkt an der Annahme.
+
+</Steps>
+
+Ab der Annahme ist ein Artikel **Erhältlich** und für den Verkäufer gesperrt.
+
+**Suchen nach Nummer:** Gib „17“, „Nr. 17“ oder „#17“ ins Suchfeld ein, dann siehst du genau die Artikel von Verkäufer 17.
+
+**Spontane Verkäufer ohne Konto** legst du unter **Teilnehmer & Helfer** über **Verkäufer ohne Konto** an. Im Produkt-Management erfasst du ihre Artikel mit **Artikel erfassen**, mit **Speichern & nächster** auch viele hintereinander. Solange nichts verkauft ist, kannst du diese Artikel bearbeiten oder löschen.
+
+## Kasse
+
+Die **Kasse** öffnest du im Menü deines Basars. Sie ist für alle Artikel eines Käufers gedacht:
+
+<Steps>
+
+1. **Artikel scannen.** Mit der Handykamera, mit einem **Hand-Scanner** (er tippt den Code ins Feld) oder per Eingabe. Jeder Artikel landet im Warenkorb, auch wenn die Kamera ein Etikett mehrfach erkennt, nur einmal. Ein Signalton bestätigt jeden Scan.
+
+2. **Preise prüfen.** Jede Zeile zeigt den aktuellen Preis mit Rabatt. Hat der Verkäufer einen Preisvorschlag angenommen oder einen Mindestpreis (VB) hinterlegt, wählst du den Preis aus.
+
+3. **Kassieren und abschließen.** Bestätige den erhaltenen Betrag und klicke **Verkauf abschließen**. Gibt der Käufer seine E-Mail-Adresse an, bekommt er **einen** Beleg für den ganzen Einkauf. Jeder Verkäufer bekommt eine Mail für seine verkauften Artikel.
+
+</Steps>
+
+<Aside type="caution" title="Rot markierte Artikel">
+  Ist ein Artikel schon verkauft (z. B. an einer anderen Kasse), nicht angenommen oder gehört er nicht zu deinem Basar, markiert die Kasse ihn rot. Entferne ihn aus dem Warenkorb, dann kannst du abschließen. Es wird immer alles oder nichts verkauft.
+</Aside>
+
+## Abrechnung und Rückgabe
+
+Nach dem Verkauf scannst du im Produkt-Management den **digitalen Ausweis** des Verkäufers. Unter **Abrechnung** siehst du:
+
+- die verkauften Artikel, die **Provision** und die **Annahmegebühr**,
+- die **Auszahlung**, oder – wenn die Annahmegebühr höher ist als der Erlös – den Betrag, den der Verkäufer zahlt (**Annahmegebühr kassieren**),
+- die unverkauften Artikel, die zurückgehen.
+
+Mit **Abrechnung abschließen** bestätigst du Auszahlung und Rückgabe. Danach sind Verkäufe und Rückgaben dieses Verkäufers gesperrt. Ist doch etwas falsch, nimmst du die Abrechnung mit **Abrechnung zurücknehmen** zurück – nimm dafür das ausgezahlte Geld wieder entgegen, damit die Kasse stimmt.
+
+## Kassensturz
+
+Im **Kassensturz** siehst du, wie viel Bargeld jetzt in der Kasse sein sollte, und wie es sich aufteilt: noch offene Auszahlungen, Provision und Annahmegebühren. Dazu, wie viele Verkäufer schon abgerechnet sind und wer noch eine Annahmegebühr zahlen muss.
+
+## Nachweis der angebotenen Artikel
+
+Auf dem Dashboard und im Kassensturz lädst du mit **Nachweis als PDF** oder **Als Tabelle (CSV)** eine Liste aller angemeldeten Artikel herunter: Verkäufernummer, Name, Anschrift, Kontakt, Artikel mit Angaben wie der Rahmennummer, Preis und ob und wann er verkauft wurde. Hast du **Feste Daten für den Nachweis** eingeschaltet, stammen die Angaben vom Zeitpunkt der Anmeldung – spätere Änderungen am Profil ändern den Nachweis nicht.
+
+<Aside type="caution">
+  Die Datei enthält personenbezogene Daten. Gib sie nur weiter, wenn es nötig ist, zum Beispiel an die Polizei, und lösche sie, wenn du sie nicht mehr brauchst.
+</Aside>

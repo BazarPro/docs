@@ -14,7 +14,9 @@ npm run build      # statische Seite in dist/
 
 ## Inhalte
 
-Seiten liegen als Markdown/MDX in `src/content/docs/`. Jede Datei ist eine Seite, die Ordner bilden die Bereiche in der Seitenleiste. Über **„Seite bearbeiten“** auf jeder Seite lässt sich direkt ein Pull Request auf GitHub stellen.
+Seiten liegen als Markdown/MDX in `src/content/docs/`. Jede Datei ist eine Seite, die Ordner bilden die Bereiche in der Seitenleiste.
+
+Die englische Übersetzung liegt in `src/content/docs/en/` unter **demselben Dateinamen** wie das deutsche Original, z. B. `en/ratgeber/kinderbasar-organisieren.mdx`. Nur so verknüpft Starlight beide Sprachen (Sprachumschalter, `hreflang`). Fehlt eine Übersetzung, zeigt `/en/…` die deutsche Seite mit einem Hinweis. Links in englischen Seiten beginnen mit `/en/`. Über **„Seite bearbeiten“** auf jeder Seite lässt sich direkt ein Pull Request auf GitHub stellen.
 
 ## Screenshots
 

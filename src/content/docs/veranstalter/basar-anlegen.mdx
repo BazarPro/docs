@@ -1,13 +1,13 @@
 ---
 title: Einen Basar anlegen
-description: Schritt für Schritt einen Basar in BazarPro anlegen – mit Provision, Zugangsregeln und Lageplan.
+description: Schritt für Schritt einen Basar in BazarPro anlegen – mit Vorlagen für Fahrradbörse, Kinderbasar und Flohmarkt, Provision, Annahmegebühr und Zugangsregeln.
 sidebar:
   order: 1
 ---
 
 import { Aside, Steps } from '@astrojs/starlight/components';
 
-In dieser Anleitung legst du einen Basar an: mit Termin und Ort, den erlaubten Kategorien, den Regeln für die Verkäuferanmeldung und deiner Provision. Plane dafür etwa zehn Minuten ein.
+In dieser Anleitung legst du einen Basar an. Ein Assistent führt dich in acht Schritten durch alle Einstellungen und erklärt bei jedem Schritt, was sie für deine Verkäufer bedeuten. Plane dafür etwa zehn Minuten ein.
 
 **Du brauchst:** ein BazarPro-Konto. Ein Titelbild und ein Lageplan sind optional, machen deinen Basar aber deutlich ansprechender.
 
@@ -21,57 +21,93 @@ In dieser Anleitung legst du einen Basar an: mit Termin und Ort, den erlaubten K
 
    ![Seite „Meine Veranstaltungen“ mit dem Button „Neue Veranstaltung“ oben rechts](../../../assets/screenshots/meine-veranstaltungen.png)
 
-   Hast du schon einmal einen Basar angelegt, kannst du oben eine **Vorlage** wählen. Dann werden die Angaben deines alten Basars übernommen und du passt nur Termin und Details an.
+3. **Art des Basars wählen.** Die Art setzt passende Einstellungen vor. Du kannst in den folgenden Schritten alles ändern.
 
-3. **Grundinformationen ausfüllen.**
+   | Art | Voreinstellungen |
+   | --- | --- |
+   | **Fahrradbörse mit Kasse** | Fotos, Verhandlungsbasis, Preisvorschläge, große Etiketten mit Preis, 10 % Provision |
+   | **Fahrradmarkt mit Nachweis** | Für Märkte, bei denen ihr z. B. der Polizei nachweisen müsst, wer welches Rad angeboten hat: höchstens 5 Räder pro Verkäufer, Rahmennummer Pflicht, nur Privatverkäufer, feste Daten, Fragen erst während des Markts, 20 % Provision |
+   | **Kinderbasar (Nummernbasar)** | Kleine Etiketten, Fotos freiwillig, 50 Artikel pro Verkäufer, Rabatte, 15 % Provision |
+   | **Flohmarkt oder allgemeiner Basar** | Wenige Vorgaben: Fotos freiwillig, Rabatte, Preisvorschläge und Fragen, 10 % Provision |
 
-   ![Formularabschnitt „Grundinformationen“ mit Titel, Titelbild, Beschreibung, Ort sowie Start- und Enddatum](../../../assets/screenshots/basar-grundinformationen.png)
+   Die Arten wählen auch passende Kategorien vor, bei Fahrradbörsen zum Beispiel alle Rad-Kategorien. Hast du schon einmal einen Basar angelegt, kannst du stattdessen dessen Einstellungen übernehmen. Mit **Ohne Vorlage weiter** startest du ohne Voreinstellungen.
+
+4. **Wann und wo?** Titel, Beschreibung, Datum und Ort erscheinen auf der Basar-Seite und in den Mails an Verkäufer.
 
    - **Titel** – mindestens 3 Zeichen, z. B. „Kinderkleiderbasar Frühjahr 2027“.
-   - **Titelbild** – wird automatisch auf höchstens 1600 × 1200 Pixel verkleinert.
    - **Beschreibung** – mindestens 10 Zeichen. Du kannst Überschriften, Listen, **fett**, *kursiv* und Links verwenden. Mit **Vorschau** siehst du, wie es aussieht.
    - **Ort** – so genau wie möglich, z. B. mit Halle oder Eingang.
-   - **Start- und Enddatum** – der Basar muss frühestens morgen beginnen, das Ende muss nach dem Start liegen.
+   - **Start- und Enddatum** – der Basar muss frühestens morgen beginnen.
+   - **Titelbild und Lageplan** (optional) – Zum Lageplan legst du **Standortkategorien** wie „Halle B“ oder „Tisch 1–10“ an. Bei der Warenannahme ordnest du jedem Artikel einen Standort zu, Besucher sehen dann beim Scannen, wo er liegt.
 
-4. **Kategorien und Services wählen.**
+5. **Wie wird verkauft?** Hier schaltest du die Funktionen ein, die zu deinem Basar passen:
 
-   ![Formularabschnitt „Kategorien & Services“](../../../assets/screenshots/basar-kategorien.png)
+   | Funktion | Was sie bringt |
+   | --- | --- |
+   | **Artikel rabattieren** | Verkäufer senken während des Basars ihren Preis, ab einer Uhrzeit, die du festlegst, und höchstens bis zu deinem Höchstrabatt. |
+   | **Preisvorschläge online** | Angemeldete Käufer schlagen während des Basars einen Preis vor. Nimmt der Verkäufer an, gilt der Preis an der Kasse. |
+   | **Verhandeln vor Ort (Mindestpreis / VB)** | Verkäufer hinterlegen einen Mindestpreis, den Käufer nicht sehen. An der Kasse darf bis dahin heruntergehandelt werden. |
+   | **Fragen an den Verkäufer** | Käufer fragen öffentlich am Artikel nach, alle sehen die Antwort. Mit **Erst während des Basars** sind Fragen erst ab Basarbeginn möglich. |
 
-   Wähle mindestens eine **Produktkategorie**. Verkäufer können nur Artikel aus diesen Kategorien anbieten. Unter **Zusätzliche Services** zeigst du Besuchern, was es vor Ort gibt, zum Beispiel Parkplätze oder Getränke.
+6. **Was kostet es die Verkäufer?**
 
-5. **Zugang und Einschränkungen festlegen.**
+   - **Provisionsgebühr** – der Anteil am Verkaufspreis, den du einbehältst.
+   - **Annahmegebühr pro Artikel** (optional) – fällt für jeden angenommenen Artikel an, auch wenn er nicht verkauft wird, zum Beispiel 3 € pro Rad. Sie wird bei der Abrechnung von der Auszahlung abgezogen.
+   - **Kontaktdaten** – sehen Verkäufer und Besucher auf der Seite deines Basars.
 
-   ![Formularabschnitt „Zugang & Einschränkungen“ mit Sichtbarkeit, Zugangscode und Teilnehmerlimit](../../../assets/screenshots/basar-zugang.png)
+   <Aside type="tip" title="Beispiel">
+     Bei 15 % Provision und einem Fahrrad für 40,00 € bekommt der Verkäufer 34,00 €, 6,00 € bleiben bei dir. Mit 3,00 € Annahmegebühr bekommt er 31,00 €. Verkäufer sehen diese Rechnung vor der Anmeldung als Beispiel.
+   </Aside>
+
+7. **Welche Artikel?**
+
+   - **Kategorien** – Verkäufer können nur Artikel aus diesen Kategorien anbieten. Manche Kategorien bringen **Zusatzfelder** mit, z. B. Rahmennummer und Rahmengröße bei Rädern oder Größe und Marke bei Kleidung.
+   - **Pflichtangaben** – Zusatzfelder, die jeder Artikel haben muss, bevor er angemeldet werden kann, z. B. die Rahmennummer.
+   - **Artikel ohne Foto erlauben** – sinnvoll bei vielen kleinen Teilen wie auf einem Kinderbasar.
+   - **Artikel pro Verkäufer** (optional) – damit Annahme und Platz reichen.
+   - **Etiketten** – **Groß** (12 pro A4-Seite, z. B. für Fahrräder) oder **Klein** (40 pro A4-Seite, z. B. für Kleidung). Auf jedem Etikett stehen QR-Code, Verkäufernummer, Titel und die Größe. **Preis aufs Etikett drucken** hilft an der Kasse, geht aber nur ohne Rabatte, weil ein gedruckter Preis nicht sinken kann.
+
+8. **Wer darf mitmachen?**
 
    Mit der **Angebotssichtbarkeit** bestimmst du, wer die Artikel deines Basars sehen kann:
 
    | Einstellung | Wer sieht die Angebote? |
    | --- | --- |
-   | **Öffentlich** | Alle, auch ohne Konto. Dein Basar erscheint auf der Startseite. |
+   | **Öffentlich** | Alle, auch ohne Konto. Dein Basar erscheint nach einer kurzen Prüfung auf der Startseite. |
    | **Nur eingeloggte Nutzer** | Nur Besucher mit BazarPro-Konto. |
    | **Nur freigeschaltete Benutzer** | Nur Nutzer, die ausdrücklich freigeschaltet wurden. |
 
-   Mit einem **Zugangscode** können sich nur Verkäufer anmelden, denen du den Code gibst – praktisch, wenn dein Basar nur für einen Verein oder eine Kita gedacht ist. Das **Teilnehmerlimit** begrenzt die Zahl der Verkäufer; ist es erreicht, sind keine weiteren Anmeldungen möglich.
+   Mit einem **Zugangscode** können sich nur Verkäufer anmelden, denen du den Code gibst. Das **Teilnehmerlimit** begrenzt die Zahl der Verkäufer.
 
-6. **Kontaktdaten und Provision eintragen.**
+   Für einen Nachweis gegenüber der Polizei gibt es zwei weitere Schalter:
 
-   ![Formularabschnitt „Kontakt & Finanzen“ mit Kontaktdaten und Provisionsgebühr](../../../assets/screenshots/basar-kontakt-provision.png)
+   - **Nur Privatverkäufer** – Verkäufer bestätigen bei der Anmeldung, dass sie nicht gewerblich verkaufen.
+   - **Feste Daten für den Nachweis** – ab dem ersten angemeldeten Artikel sind Name und Anschrift des Verkäufers sowie Titel, Kategorie, Preis und Pflichtangaben des Artikels fest. Abmelden geht nur bis Basarbeginn.
 
-   Die **Kontaktdaten** sehen Verkäufer und Besucher auf der Seite deines Basars. Die **Provisionsgebühr** ist der Anteil, den du von jedem Verkauf einbehältst – voreingestellt sind 15 %.
+9. **Abgabe und Abholung.** Trage ein, wann Verkäufer ihre Artikel bringen und wann sie Unverkauftes und ihr Geld abholen, dazu einen Hinweis wie „Eingang über den Hof“. Die Zeiten stehen in den Bedingungen und in den automatischen Mails (siehe unten). Mit **Vorschau der Mail am Vorabend** siehst du genau, was verschickt wird.
 
-   <Aside type="tip" title="Beispiel">
-     Bei 15 % Provision und einem Fahrrad für 40,00 € bekommt der Verkäufer 34,00 €, 6,00 € bleiben beim Veranstalter. Die Abrechnung rechnet das für jeden Verkäufer automatisch aus.
-   </Aside>
-
-7. **Lageplan und Standorte hinzufügen (optional).**
-
-   ![Formularabschnitt „Lageplan und Standortkategorien“](../../../assets/screenshots/basar-lageplan.png)
-
-   Lade einen **Lageplan** als Bild hoch und lege **Standortkategorien** an, zum Beispiel „Halle B“ oder „Tisch 1–10“. Bei der Warenannahme ordnest du jeden Artikel einem Standort zu – Besucher sehen dann beim Scannen, wo sie ihn finden.
-
-8. **Veranstaltung erstellen.** Ganz unten auf **Veranstaltung erstellen** klicken. Dein Basar erscheint unter **Meine Events**.
+10. **Alles im Blick.** Zum Schluss siehst du die wichtigsten Angaben und die Bedingungen genau so, wie Verkäufer sie vor der Anmeldung sehen, mit Rechenbeispiel. Mit **Veranstaltung erstellen** legst du den Basar an. Er erscheint unter **Meine Events**.
 
 </Steps>
+
+Ein Schritt geht erst weiter, wenn seine Angaben stimmen. Mit **Zurück** kannst du jederzeit einen Schritt zurückgehen.
+
+## Automatische Mails an Verkäufer
+
+Ohne dass du etwas tun musst, schickt BazarPro deinen Verkäufern zwei Mails:
+
+- **Am Vorabend um 18 Uhr** an alle mit angemeldeten Artikeln: Basarzeit, Ort, Abgabezeit, Verkäufernummer, Anzahl der Artikel, ein Hinweis auf Etiketten und digitalen Ausweis, dein Hinweistext und deine Kontaktdaten.
+- **Zur Abholung** an alle, die etwas abgegeben haben und noch nicht abgerechnet sind: was verkauft wurde, der Auszahlungsbetrag und die abzuholenden Artikel. Die Mail kommt direkt nach Basarende oder 2 Stunden vor einer späteren Abholzeit.
+
+Verschiebst du den Basar, gehen die Mails zum neuen Termin noch einmal raus.
+
+## Einstellungen später ändern
+
+Unter **Einstellungen bearbeiten** findest du alle Angaben in einem Formular. Ein paar Dinge sind fest, sobald sich Verkäufer darauf verlassen:
+
+- **Provision und Annahmegebühr** kannst du nach der ersten Anmeldung nur noch senken.
+- **Artikel pro Verkäufer** kannst du nach der ersten Anmeldung nur noch erhöhen.
+- **Während des Basars** sind Datum, Provision und Sichtbarkeit gesperrt, damit Abrechnung und Freigabe stimmen.
 
 ## Freigabe öffentlicher Basare
 
@@ -85,4 +121,4 @@ Damit auf der öffentlichen Startseite nur echte Basare erscheinen, prüft ein A
 
 ## Wie geht es weiter?
 
-Teile den Link zu deinem Basar mit deinen Verkäufern – und, falls du einen nutzt, den Zugangscode. Wie sich Verkäufer anmelden und ihre Artikel inserieren, steht in [Einen Artikel inserieren](/verkaeufer/artikel-inserieren/).
+Teile den Link zu deinem Basar mit deinen Verkäufern – und, falls du einen nutzt, den Zugangscode. Wie sich Verkäufer anmelden und ihre Artikel inserieren, steht in [Einen Artikel inserieren](/verkaeufer/artikel-inserieren/). Wie Annahme, Kasse und Abrechnung laufen, steht in [Der Basartag](/veranstalter/basartag/).
