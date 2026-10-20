@@ -27,6 +27,8 @@ Die Bilder in `src/assets/screenshots/` werden mit Playwright aus einer laufende
 BAZARPRO_URL=http://127.0.0.1:5199 npm run screenshots
 ```
 
+Das Skript erzeugt jedes Bild auf Deutsch (`src/assets/screenshots/`) und Englisch (`src/assets/screenshots/en/`). Für die Kasse bekommt Chromium eine Fake-Kamera mit einem Standbild aus `public/boerse.webp`, dafür muss `ffmpeg` installiert sein.
+
 Die Demo-Konten stammen aus dem Seed von BazarPro (`convex/seed.ts`, Passwort `123456`).
 
 ## Deployment
