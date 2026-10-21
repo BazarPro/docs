@@ -21,6 +21,18 @@ export default defineConfig({
       editLink: { baseUrl: 'https://github.com/BazarPro/docs/edit/main/' },
       lastUpdated: true,
       customCss: ['./src/styles/theme.css'],
+      // Plausible (data.bazarpro.de): cookie-free page views; options are set per site in Plausible
+      head: [
+        {
+          tag: 'script',
+          attrs: { async: true, src: 'https://data.bazarpro.de/js/pa-gpOnG9e83--1wgsh8mo2o.js' },
+        },
+        {
+          tag: 'script',
+          content:
+            'window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};plausible.init()',
+        },
+      ],
       sidebar: [
         {
           label: 'Erste Schritte',
