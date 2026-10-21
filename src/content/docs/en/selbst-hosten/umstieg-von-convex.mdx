@@ -1,0 +1,113 @@
+---
+title: Moving from Convex
+description: Move a BazarPro installation before version 2.0 to the new backend with PostgreSQL – with all accounts, bazaars, items and photos.
+sidebar:
+  label: Moving from Convex
+  order: 2
+---
+
+import { Aside, Steps } from '@astrojs/starlight/components';
+
+Up to version 1.8, BazarPro ran on [Convex](https://www.convex.dev/). From version 2.0 on, BazarPro has its own backend with a PostgreSQL database. A plain update isn't enough for that: you export the data from Convex and load it into the new backend. Allow about half an hour, during which BazarPro is not available.
+
+**What is moved:** all accounts with their passwords, bazaars, items with photos, sales and settlements, settings, logo and legal texts.
+
+**What is not moved:** the sign-ins. All users sign in once more after the move – with their existing password. Best announce this beforehand.
+
+<Aside>
+  Don't schedule the move for the days before a bazaar. If something goes wrong, you can continue with the old installation, see [Back to the old installation](#back-to-the-old-installation).
+</Aside>
+
+## Moving
+
+All commands run in the folder of your existing installation, where the `docker-compose.selfhost.yml` and the `.env` are.
+
+<Steps>
+
+1. **Export the data from Convex.** While the old installation is still running:
+
+   ```bash
+   docker compose -f docker-compose.selfhost.yml run --rm -T --entrypoint sh convex-init -c \
+     'export CONVEX_SELF_HOSTED_ADMIN_KEY=$(cat /keys/admin_key) &&
+      npx convex export --include-file-storage --path /tmp/export.zip >&2 && cat /tmp/export.zip' \
+     > convex-export.zip
+   ```
+
+   The file `convex-export.zip` contains all data and photos. Also copy it somewhere other than the server.
+
+2. **Stop the old installation** and keep its Compose file in case you need it:
+
+   ```bash
+   docker compose -f docker-compose.selfhost.yml down
+   mv docker-compose.selfhost.yml docker-compose.convex.yml
+   ```
+
+   The Convex data stays in the Docker volume `bazarpro_convex_data`.
+
+3. **Download the new Compose file:**
+
+   ```bash
+   curl -O https://raw.githubusercontent.com/BazarPro/core/main/docker-compose.selfhost.yml
+   ```
+
+4. **Extend the `.env`.** Compare it with the new [template](https://github.com/BazarPro/core/blob/main/.env.selfhost.example). New or changed are:
+
+   - **`POSTGRES_PASSWORD`** – a random password for the database, e.g. generated with `openssl rand -hex 24`
+   - **`BAZARPRO_VERSION`** – at least `v2.0.0`
+
+   All other entries stay as they are.
+
+5. **Load the export.** The command starts the database, creates the tables and takes over the data from `convex-export.zip`:
+
+   ```bash
+   docker compose -f docker-compose.selfhost.yml run --rm \
+     -v "$PWD/convex-export.zip:/import/export.zip:ro" \
+     backend bazarpro-backend import /import/export.zip
+   ```
+
+   At the end, a report shows the number of entries taken over per table. Under **Probleme** (problems) it lists entries that point to something deleted, e.g. roles in a deleted bazaar. They are skipped, which is usually fine.
+
+   The import only works into an empty database. If it aborts, nothing is taken over and you can simply repeat it after fixing the cause.
+
+6. **Start BazarPro:**
+
+   ```bash
+   docker compose -f docker-compose.selfhost.yml up -d
+   ```
+
+7. **Check.** Sign in, open a bazaar with photos and look under **Admin › Settings** whether name and logo are right.
+
+8. **Adjust sign-in with GitHub or Google** – only if you use it. The callback URL has changed. Enter in the provider's OAuth app:
+
+   - GitHub: `https://<DOMAIN>/api/auth/oauth/github/callback`
+   - Google: `https://<DOMAIN>/api/auth/oauth/google/callback`
+
+</Steps>
+
+## Cleaning up
+
+When everything has been running for a few days:
+
+- **Delete DNS records:** BazarPro no longer needs `convex.<DOMAIN>`, `convex-site.<DOMAIN>` and, if you created it, `convex-dashboard.<DOMAIN>`.
+- **Delete the old data:**
+
+  ```bash
+  docker volume rm bazarpro_convex_data bazarpro_convex_keys
+  rm docker-compose.convex.yml
+  ```
+
+  Keep `convex-export.zip` as a backup for a while anyway.
+
+- **Set up the new backup:** The old backup commands no longer work. How it works now is described under [Backup](/en/selbst-hosten/#backup).
+- **Check your privacy policy:** If it names Convex as a service provider, you can remove that. All data now lives in your own database.
+
+## Back to the old installation
+
+As long as the volume `bazarpro_convex_data` still exists, you can go back:
+
+```bash
+docker compose -f docker-compose.selfhost.yml down
+docker compose -f docker-compose.convex.yml up -d
+```
+
+Set `BAZARPRO_VERSION` in the `.env` back to your old version for that. Whatever was changed in the new backend since the move is missing in the old installation.
