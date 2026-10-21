@@ -21,6 +21,7 @@ export default defineConfig({
       editLink: { baseUrl: 'https://github.com/BazarPro/docs/edit/main/' },
       lastUpdated: true,
       customCss: ['./src/styles/theme.css'],
+      components: { Footer: './src/components/Footer.astro' },
       // Plausible (data.bazarpro.de): cookie-free page views; options are set per site in Plausible
       head: [
         {

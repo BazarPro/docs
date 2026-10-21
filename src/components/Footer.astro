@@ -1,0 +1,32 @@
+---
+// Starlight's footer plus the legal links of bazarpro.de, which also cover these docs
+import Default from '@astrojs/starlight/components/Footer.astro';
+
+const english = Astro.locals.starlightRoute.lang === 'en';
+const links = [
+  { href: 'https://bazarpro.de/imprint', label: english ? 'Imprint' : 'Impressum' },
+  { href: 'https://bazarpro.de/privacy', label: english ? 'Privacy policy' : 'Datenschutz' },
+];
+---
+
+<Default />
+<nav class="legal" aria-label={english ? 'Legal' : 'Rechtliches'}>
+  {links.map((link) => <a href={link.href}>{link.label}</a>)}
+</nav>
+
+<style>
+  .legal {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 2rem;
+    font-size: var(--sl-text-xs);
+  }
+  .legal a {
+    color: var(--sl-color-gray-3);
+    text-decoration: none;
+  }
+  .legal a:hover {
+    color: var(--sl-color-white);
+  }
+</style>
