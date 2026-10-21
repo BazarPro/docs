@@ -2,9 +2,7 @@
  * Erzeugt die Screenshots der Doku aus einer laufenden BazarPro-Instanz mit
  * Demo-Daten (Seed), auf Deutsch und Englisch. Niemals gegen Produktion laufen lassen.
  *
- *   BAZARPRO_URL=http://127.0.0.1:5199 \
- *   BAZARPRO_CONVEX_URL=http://127.0.0.1:3210 \
- *   npm run screenshots
+ *   BAZARPRO_URL=http://127.0.0.1:5199 npm run screenshots
  *
  * Deutsche Bilder landen in src/assets/screenshots/, englische in src/assets/screenshots/en/.
  */
@@ -15,7 +13,6 @@ import path from 'node:path';
 import { chromium } from '@playwright/test';
 
 const BASE_URL = (process.env.BAZARPRO_URL ?? 'http://127.0.0.1:5199').replace(/\/+$/, '');
-const CONVEX_URL = (process.env.BAZARPRO_CONVEX_URL ?? 'http://127.0.0.1:3210').replace(/\/+$/, '');
 const SCREENSHOT_DIR = path.resolve('src/assets/screenshots');
 const PASSWORD = '123456';
 
@@ -66,14 +63,15 @@ const LOCALES = {
   },
 };
 
-async function convexQuery(fn, args) {
-  const res = await fetch(`${CONVEX_URL}/api/query`, {
+/** A query of the backend without sign-in, e.g. `events.getPublicEvents`. */
+async function apiQuery(fn, args) {
+  const res = await fetch(`${BASE_URL}/api/query/${fn}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ path: fn, args, format: 'json' }),
+    body: JSON.stringify(args ?? {}),
   });
   const body = await res.json();
-  if (body.status !== 'success') throw new Error(`${fn}: ${body.errorMessage}`);
+  if (!res.ok) throw new Error(`${fn}: ${body.message ?? res.status}`);
   return body.value;
 }
 
@@ -99,22 +97,11 @@ async function login(page, email, lang) {
   await page.getByTestId('button-login-submit').click();
   await page.waitForURL((url) => !url.pathname.startsWith('/login'), { timeout: 20_000 });
   // The account's language wins over the browser's: save the wanted one at the account
-  await page.evaluate(
-    async ({ convexUrl, locale }) => {
-      const key = Object.keys(localStorage).find((k) => k.startsWith('__convexAuthJWT'));
-      const res = await fetch(`${convexUrl}/api/mutation`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem(key)}`,
-        },
-        body: JSON.stringify({ path: 'users:setMyLocale', args: { locale }, format: 'json' }),
-      });
-      const body = await res.json();
-      if (body.status !== 'success') throw new Error(`setMyLocale: ${body.errorMessage}`);
-    },
-    { convexUrl: CONVEX_URL, locale: lang }
-  );
+  // The session cookie of the sign-in goes along: the backend answers under the app's origin
+  const res = await page.request.post(`${BASE_URL}/api/mutation/users.setMyLocale`, {
+    data: { locale: lang },
+  });
+  if (!res.ok()) throw new Error(`setMyLocale: ${res.status()} ${await res.text()}`);
 }
 
 async function open(page, route, texts) {
@@ -172,10 +159,10 @@ async function organizer(browser, lang) {
   await shot(page.locator('main'), 'basar-zusammenfassung', texts.dir);
 
   // Cash desk of the running showcase bazaar with three bikes in the cart
-  const events = await convexQuery('events:get', {});
+  const events = await apiQuery('events.get', {});
   const bikeEvent = events.find((e) => e.title.startsWith('Fahrradbörse Bürgerhalle'));
   if (!bikeEvent) throw new Error('Demo-Event "Fahrradbörse Bürgerhalle" fehlt – Seed ausgeführt?');
-  const products = await convexQuery('eventProducts:getProductsForEvent', { eventId: bikeEvent._id });
+  const products = await apiQuery('eventProducts.getProductsForEvent', { eventId: bikeEvent._id });
   const available = products.filter((p) => p.status === 'available').slice(0, 3);
   await open(page, `/events/view/${bikeEvent._id}/checkout`, texts);
   const code = page.getByLabel(texts.itemCode);
@@ -248,7 +235,7 @@ function fakeCameraArgs() {
 }
 
 async function main() {
-  const events = await convexQuery('events:get', {});
+  const events = await apiQuery('events.get', {});
   const sellerEvent = events.find((e) => e.title === 'Großer Winterflohmarkt 2026');
   if (!sellerEvent) throw new Error('Demo-Event "Großer Winterflohmarkt 2026" fehlt – Seed ausgeführt?');
 

@@ -29,7 +29,7 @@ BAZARPRO_URL=http://127.0.0.1:5199 npm run screenshots
 
 Das Skript erzeugt jedes Bild auf Deutsch (`src/assets/screenshots/`) und Englisch (`src/assets/screenshots/en/`). Für die Kasse bekommt Chromium eine Fake-Kamera mit einem Standbild aus `public/boerse.webp`, dafür muss `ffmpeg` installiert sein.
 
-Die Demo-Konten stammen aus dem Seed von BazarPro (`convex/seed.ts`, Passwort `123456`).
+Die Demo-Konten stammen aus dem Seed von BazarPro (`bazarpro-backend seed`, `backend/src/demo`, Passwort `123456`). Für `scripts/demo-stack.sh` braucht es Docker, Rust (cargo) und Node.
 
 ## Deployment
 
