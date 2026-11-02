@@ -1,0 +1,98 @@
+---
+title: Universal labels
+description: How the reusable labels with a digit, colors and symbols work – set them up, sort items back and keep using the labels at the next bazaar.
+sidebar:
+  order: 3
+---
+
+import { Aside, Steps } from '@astrojs/starlight/components';
+import { Image } from 'astro:assets';
+import etiketten from '../../../../assets/etiketten/etiketten.png';
+import etikettenGrau from '../../../../assets/etiketten/etiketten-gray.png';
+import sortierblatt from '../../../../assets/etiketten/sortierblatt.png';
+
+At the end of a kids' or clothing bazaar, hundreds of small items lie on the tables and have to go back to their sellers. **Universal labels** make this easier: instead of a number, the label has a mark made of a large digit, colors and symbols. Helpers recognize it at a glance and don't have to read anything.
+
+The mark belongs to the seller and never changes. So their labels also work at other bazaars with universal labels, and they don't have to print them again.
+
+<Image src={etiketten} alt="Eight small labels with QR code, title and size. Four of them carry the same mark: a large 5 with a yellow field with a diamond, a blue one with a circle and a black one with bars. The others show 4 A and 3 with other fields." />
+
+## Which label suits my bazaar?
+
+Under **Seller on the label** you choose how your team tells the items apart. The QR code is always there and works the same with all three options.
+
+| Option | Sorting back | At the next bazaar | Good for |
+| --- | --- | --- | --- |
+| **Seller number of this bazaar** | Read the number | Print again, the number is only valid for this bazaar | Few items or large labels, e.g. bikes |
+| **Universal label** | At a glance, no reading | Reuse at bazaars with universal labels | Many small items, e.g. clothes and toys |
+| **Nothing, QR code only** | Scan every item | Reuse | Few items that don't need sorting |
+
+## Set it up
+
+The templates **Children's bazaar** and **Clothing & second-hand bazaar** already use universal labels. You don't have to do anything.
+
+For other bazaars, set it in the step **Which items?**, or later under **Edit settings**:
+
+<Steps>
+
+1. Under **Labels**, choose the format **Small** (40 per A4 page). The large format always prints the seller number.
+
+2. Under **Seller on the label**, choose the **Universal label**.
+
+</Steps>
+
+<Aside type="caution" title="Decide before printing">
+  A later change only applies to newly printed labels. So decide before your sellers print.
+</Aside>
+
+## How the mark is built
+
+- **Large digit:** you use it to split the items into ten piles first.
+- **Three fields:** a wide one on top and two small ones below. Each has one of six colors, and each color has its own symbol: circle, triangle, square, diamond, cross or bars.
+- **Letter (rare):** only after 2160 sellers does a letter appear below the digit, so that every mark stays unique.
+
+The symbols keep the mark clear **in black-and-white printing** and for color-blind helpers:
+
+<Image src={etikettenGrau} alt="The same eight labels in grayscale. The marks can still be told apart by their symbols." />
+
+## Sorting items back
+
+<Image src={sortierblatt} alt="Sorting sheet with the mark in large format, plus the name Anna Beispiel and No. 17" />
+
+<Steps>
+
+1. **Print the sorting sheets.** Under **Participants & helpers**, **Sorting sheets** downloads a PDF. It has one sheet per seller with a large mark, the name and the seller number, already in the right order.
+
+2. **Set up the baskets.** Put the matching sheet in each basket and line the baskets up in this order.
+
+3. **Pre-sort by digit.** Put the unsold items on ten piles by their large digit.
+
+4. **Sort them in.** Take a pile and put each item in the basket with the same colors and symbols.
+
+</Steps>
+
+You also see each seller's mark in the list under **Participants & helpers**. Settlement works as usual, see [Settlement and return](/en/veranstalter/basartag/#settlement-and-return).
+
+## Reusing labels
+
+The QR code leads to the item, not to the bazaar. If an item stays unsold, the label can simply stay on:
+
+<Steps>
+
+1. Under **My items**, the seller assigns the item to the next bazaar with **Add to event**.
+
+2. If the new bazaar also uses universal labels, they bring the item with its old label to intake. It's scanned there like any other.
+
+</Steps>
+
+A label always belongs to **exactly one item**. For a new item, the seller prints a new one. To avoid wasting sheets, they can enter where to continue on a partly used sheet under **First free place on the sheet** when printing.
+
+## Frequently asked questions
+
+**Is there still a seller number?** Yes. It just isn't on the label anymore. It stays in the search, in the emails and on the sorting sheets.
+
+**Does anything change at the cash desk?** No. Intake and the cash desk scan the QR code as always.
+
+**Can a seller change their mark?** No, on purpose: that's the only way their printed labels stay valid.
+
+**Does the mark also work on other servers?** No. Marks and QR codes are valid within one BazarPro installation. If you [self-host](/en/selbst-hosten/), you have your own marks, and labels from bazarpro.de don't work there.

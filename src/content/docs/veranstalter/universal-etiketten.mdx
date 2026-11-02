@@ -1,0 +1,98 @@
+---
+title: Universal-Etiketten
+description: So funktionieren die wiederverwendbaren Etiketten mit Ziffer, Farben und Symbolen – einrichten, Ware zurücksortieren und Etiketten beim nächsten Basar weiter nutzen.
+sidebar:
+  order: 3
+---
+
+import { Aside, Steps } from '@astrojs/starlight/components';
+import { Image } from 'astro:assets';
+import etiketten from '../../../assets/etiketten/etiketten.png';
+import etikettenGrau from '../../../assets/etiketten/etiketten-gray.png';
+import sortierblatt from '../../../assets/etiketten/sortierblatt.png';
+
+Bei einem Kinder- oder Kleiderbasar liegen am Ende Hunderte kleine Teile auf den Tischen und müssen zurück zu ihren Verkäufern. **Universal-Etiketten** machen das einfacher: Statt einer Nummer trägt das Etikett ein Zeichen aus einer großen Ziffer, Farben und Symbolen. Helfer erkennen es auf einen Blick und müssen nichts lesen.
+
+Das Zeichen gehört dem Verkäufer und bleibt immer gleich. Darum passen seine Etiketten auch bei anderen Basaren mit Universal-Etiketten, und er muss sie nicht neu drucken.
+
+<Image src={etiketten} alt="Acht kleine Etiketten mit QR-Code, Titel und Größe. Vier davon tragen dasselbe Zeichen: eine große 5 mit einem gelben Feld mit Raute, einem blauen mit Kreis und einem schwarzen mit Balken. Die anderen zeigen 4 A und 3 mit anderen Feldern." />
+
+## Welches Etikett passt zu meinem Basar?
+
+Unter **Verkäufer auf dem Etikett** wählst du, woran dein Team die Artikel erkennt. Der QR-Code ist immer drauf und funktioniert bei allen drei Varianten gleich.
+
+| Auswahl | Zurücksortieren | Beim nächsten Basar | Passt für |
+| --- | --- | --- | --- |
+| **Verkäufernummer dieses Basars** | Nummer lesen | Neu drucken, die Nummer gilt nur für diesen Basar | Wenige Artikel oder große Etiketten, z. B. Fahrräder |
+| **Universal-Etikett** | Auf einen Blick, ohne Lesen | Wiederverwenden bei Basaren mit Universal-Etiketten | Viele kleine Teile, z. B. Kleidung und Spielzeug |
+| **Nichts, nur QR-Code** | Jeden Artikel scannen | Wiederverwenden | Wenige Artikel, die nicht sortiert werden müssen |
+
+## Einrichten
+
+Bei den Vorlagen **Kinderbasar** und **Kleider- & Second-Hand-Basar** sind Universal-Etiketten schon eingestellt. Du musst nichts tun.
+
+Bei anderen Basaren stellst du es im Schritt **Welche Artikel?** ein, oder später unter **Einstellungen bearbeiten**:
+
+<Steps>
+
+1. Bei **Etiketten** das Format **Klein** wählen (40 pro A4-Seite). Im großen Format druckt BazarPro immer die Verkäufernummer.
+
+2. Bei **Verkäufer auf dem Etikett** das **Universal-Etikett** wählen.
+
+</Steps>
+
+<Aside type="caution" title="Vor dem Druck entscheiden">
+  Eine spätere Änderung gilt nur für neu gedruckte Etiketten. Lege dich also fest, bevor deine Verkäufer drucken.
+</Aside>
+
+## So ist das Zeichen aufgebaut
+
+- **Große Ziffer:** Mit ihr teilt ihr die Ware zuerst in zehn Stapel auf.
+- **Drei Felder:** ein breites oben und zwei kleine darunter. Jedes hat eine von sechs Farben, zu jeder Farbe gehört ein eigenes Symbol: Kreis, Dreieck, Quadrat, Raute, Kreuz oder Balken.
+- **Buchstabe (selten):** Erst nach 2160 Verkäufern steht unter der Ziffer zusätzlich ein Buchstabe, damit jedes Zeichen eindeutig bleibt.
+
+Die Symbole sorgen dafür, dass das Zeichen auch **im Schwarz-Weiß-Druck** und für farbenblinde Helfer eindeutig bleibt:
+
+<Image src={etikettenGrau} alt="Dieselben acht Etiketten in Graustufen. Die Zeichen lassen sich an den Symbolen weiterhin unterscheiden." />
+
+## Ware zurücksortieren
+
+<Image src={sortierblatt} alt="Sortierblatt mit dem Zeichen in Großformat, dazu der Name Anna Beispiel und Nr. 17" />
+
+<Steps>
+
+1. **Sortierblätter drucken.** Unter **Teilnehmer & Helfer** lädst du mit **Sortierblätter** ein PDF herunter. Es enthält pro Verkäufer ein Blatt mit großem Zeichen, Namen und Verkäufernummer, schon in der richtigen Reihenfolge.
+
+2. **Kisten aufstellen.** Lege in jede Kiste das passende Blatt und stelle die Kisten in dieser Reihenfolge auf.
+
+3. **Nach Ziffern vorsortieren.** Lege die unverkaufte Ware nach der großen Ziffer auf zehn Stapel.
+
+4. **Einsortieren.** Nimm einen Stapel und lege jedes Teil in die Kiste mit denselben Farben und Symbolen.
+
+</Steps>
+
+Das Zeichen jedes Verkäufers siehst du auch in der Liste unter **Teilnehmer & Helfer**. Die Abrechnung läuft wie gewohnt, siehe [Abrechnung und Rückgabe](/veranstalter/basartag/#abrechnung-und-rückgabe).
+
+## Etiketten wiederverwenden
+
+Der QR-Code führt zum Artikel, nicht zum Basar. Bleibt ein Teil unverkauft, kann das Etikett also einfach dranbleiben:
+
+<Steps>
+
+1. Der Verkäufer ordnet den Artikel unter **Meine Produkte** mit **Zu Event hinzufügen** dem nächsten Basar zu.
+
+2. Nutzt der neue Basar ebenfalls Universal-Etiketten, bringt er den Artikel mit dem alten Etikett zur Annahme. Dort wird es wie jedes andere gescannt.
+
+</Steps>
+
+Ein Etikett gehört immer zu **genau einem Artikel**. Für einen neuen Artikel druckt der Verkäufer ein neues. Damit keine Bögen verloren gehen, kann er beim Drucken unter **Erstes freies Feld auf dem Bogen** angeben, wo es auf einem angebrochenen Bogen weitergeht.
+
+## Häufige Fragen
+
+**Gibt es die Verkäufernummer noch?** Ja. Sie steht nur nicht mehr auf dem Etikett. In der Suche, in den Mails und auf den Sortierblättern bleibt sie.
+
+**Ändert sich etwas an der Kasse?** Nein. Annahme und Kasse scannen den QR-Code wie immer.
+
+**Kann ein Verkäufer sein Zeichen ändern?** Nein, und das ist Absicht: Nur so bleiben seine gedruckten Etiketten gültig.
+
+**Gilt das Zeichen auch auf anderen Servern?** Nein. Zeichen und QR-Codes gelten innerhalb einer BazarPro-Installation. Wer [selbst hostet](/selbst-hosten/), hat eigene Zeichen, und Etiketten von bazarpro.de funktionieren dort nicht.
