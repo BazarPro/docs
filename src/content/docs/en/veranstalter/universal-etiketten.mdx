@@ -8,6 +8,7 @@ sidebar:
 import { Aside, Steps } from '@astrojs/starlight/components';
 import { Image } from 'astro:assets';
 import etiketten from '../../../../assets/etiketten/etiketten.png';
+import etikettenGross from '../../../../assets/etiketten/etiketten-gross.png';
 import etikettenGrau from '../../../../assets/etiketten/etiketten-gray.png';
 import legende from '../../../../assets/etiketten/legende.png';
 import sortierblatt from '../../../../assets/etiketten/sortierblatt.png';
@@ -16,7 +17,11 @@ At the end of a bazaar, hundreds of items often have to go back to their sellers
 
 The mark belongs to the seller, never changes and exists only once. So their labels also work at the next bazaar, and they don't have to print them again.
 
-<Image src={etiketten} alt="Eight small labels with QR code, title, size and price. Four of them carry the same mark: a light blue field with a heart and a large 7, next to it a purple cross with 66 and a purple star with 64. The label “Mütze” has the same pattern plus the letter A. The other three carry other marks." />
+<Image src={etiketten} alt="Eight small labels with gray cut lines, QR code, title, size and price. Four of them carry the same framed mark: a light blue field with a heart and a large 7, next to it a purple cross with 66 and a purple star with 64. The label “Mütze” has the same pattern plus the letter A. The other three carry other marks." />
+
+Every label has a **gray line to cut along**. The mark has a frame, so you see at a glance what belongs together. On large labels, everything is centered one below the other:
+
+<Image src={etikettenGross} alt="Large labels with gray cut lines: the QR code on top, below it the title, the framed mark and size and price, all centered." />
 
 ## Which label suits my bazaar?
 
@@ -41,7 +46,7 @@ Every mark has three parts. On the example label above, it is **7 · 66 · 64**:
 
 - **Large field (pile):** It has one of ten colors and shapes and shows the digit in large print. The field with the 7 is light blue with a heart. You first split the items into ten piles by it.
 - **Two marks next to it (basket):** Each shows a number from 00 to 99. The **first digit sets the color, the second the shape**. So 66 is a purple cross and 64 a purple star.
-- **Letter (rare):** It is only added once all 100,000 marks without a letter are taken (A, B, … Z, AA, …). So marks never run out.
+- **Letter (rare):** It is only added once hardly any of the 100,000 marks without a letter are free (A, B, … Z, AA, …). So marks never run out.
 
 <Image src={legende} alt="Legend: on top ten color fields for the digits 0 to 9 (black, red, blue, green, yellow, orange, purple, light blue, pink, brown), below ten shapes for the digits 0 to 9 (circle, square, triangle, diamond, star, half circle, cross, heart, arrow, hourglass)." />
 
@@ -102,6 +107,8 @@ A label always belongs to **exactly one item**. For a new item, the seller print
 **Can a seller change their mark?** No, and that is on purpose: only this way their printed labels stay valid.
 
 **Is a mark given out again when an account is deleted?** No. A mark is never given out twice, because printed labels may still be around.
+
+**Does the mark tell how old an account is?** No. Marks are given out at random, so a new bazaar does not start at 00 00 either.
 
 **Does every account get a mark?** No, only sellers: with their first item or their first bazaar.
 

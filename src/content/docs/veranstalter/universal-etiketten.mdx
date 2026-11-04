@@ -8,6 +8,7 @@ sidebar:
 import { Aside, Steps } from '@astrojs/starlight/components';
 import { Image } from 'astro:assets';
 import etiketten from '../../../assets/etiketten/etiketten.png';
+import etikettenGross from '../../../assets/etiketten/etiketten-gross.png';
 import etikettenGrau from '../../../assets/etiketten/etiketten-gray.png';
 import legende from '../../../assets/etiketten/legende.png';
 import sortierblatt from '../../../assets/etiketten/sortierblatt.png';
@@ -16,7 +17,11 @@ Am Ende eines Basars müssen oft Hunderte Teile zurück zu ihren Verkäufern. **
 
 Das Zeichen gehört dem Verkäufer, bleibt immer gleich und kommt nur einmal vor. Darum passen seine Etiketten auch beim nächsten Basar, und er muss sie nicht neu drucken.
 
-<Image src={etiketten} alt="Acht kleine Etiketten mit QR-Code, Titel, Größe und Preis. Vier davon tragen dasselbe Zeichen: ein hellblaues Feld mit Herz und der großen 7, daneben ein lila Kreuz mit 66 und ein lila Stern mit 64. Das Etikett „Mütze“ hat dasselbe Muster und zusätzlich den Buchstaben A. Die übrigen drei tragen andere Zeichen." />
+<Image src={etiketten} alt="Acht kleine Etiketten mit grauen Schnittlinien, QR-Code, Titel, Größe und Preis. Vier davon tragen dasselbe umrahmte Zeichen: ein hellblaues Feld mit Herz und der großen 7, daneben ein lila Kreuz mit 66 und ein lila Stern mit 64. Das Etikett „Mütze“ hat dasselbe Muster und zusätzlich den Buchstaben A. Die übrigen drei tragen andere Zeichen." />
+
+Jedes Etikett hat eine **graue Linie, an der du schneidest**. Das Zeichen ist umrahmt, damit man auf einen Blick sieht, was zusammengehört. Bei großen Etiketten steht alles mittig untereinander:
+
+<Image src={etikettenGross} alt="Große Etiketten mit grauen Schnittlinien: oben der QR-Code, darunter Titel, das umrahmte Zeichen sowie Größe und Preis, alles mittig." />
 
 ## Welches Etikett passt zu meinem Basar?
 
@@ -41,7 +46,7 @@ Jedes Zeichen hat drei Teile. Beim Beispiel-Etikett oben ist das **7 · 66 · 64
 
 - **Großes Feld (Haufen):** Es hat eine von zehn Farben und Formen und zeigt groß die Ziffer. Das Feld mit der 7 ist hellblau und trägt ein Herz. Danach teilt ihr die Ware zuerst auf zehn Haufen auf.
 - **Zwei Zeichen daneben (Korb):** Jedes zeigt eine Zahl von 00 bis 99. Die **erste Stelle bestimmt die Farbe, die zweite die Form**. Die 66 ist also ein lila Kreuz, die 64 ein lila Stern.
-- **Buchstabe (selten):** Er kommt erst dazu, wenn alle 100.000 Zeichen ohne Buchstaben vergeben sind (A, B, … Z, AA, …). So gehen die Zeichen nie aus.
+- **Buchstabe (selten):** Er kommt erst dazu, wenn von den 100.000 Zeichen ohne Buchstaben kaum noch welche frei sind (A, B, … Z, AA, …). So gehen die Zeichen nie aus.
 
 <Image src={legende} alt="Legende: oben zehn Farbfelder für die Ziffern 0 bis 9 (Schwarz, Rot, Blau, Grün, Gelb, Orange, Lila, Hellblau, Pink, Braun), darunter zehn Formen für die Ziffern 0 bis 9 (Kreis, Quadrat, Dreieck, Raute, Stern, Halbkreis, Kreuz, Herz, Pfeil, Sanduhr)." />
 
@@ -102,6 +107,8 @@ Ein Etikett gehört immer zu **genau einem Artikel**. Für einen neuen Artikel d
 **Kann ein Verkäufer sein Zeichen ändern?** Nein, und das ist Absicht: Nur so bleiben seine gedruckten Etiketten gültig.
 
 **Wird ein Zeichen neu vergeben, wenn ein Konto gelöscht wird?** Nein. Ein Zeichen wird nie ein zweites Mal vergeben, weil noch gedruckte Etiketten im Umlauf sein können.
+
+**Verrät das Zeichen, wie alt ein Konto ist?** Nein. Zeichen werden zufällig vergeben, ein neuer Basar beginnt also auch nicht bei 00 00.
 
 **Bekommt jedes Konto ein Zeichen?** Nein, nur Verkäufer: mit dem ersten Artikel oder der ersten Teilnahme an einem Basar.
 
