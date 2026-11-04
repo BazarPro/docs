@@ -60,8 +60,8 @@ For the vast majority of installations, `single` is right. The data is the same 
 
    - **`DOMAIN`** – your domain without `https://`, e.g. `basar.example.org`
    - **`POSTGRES_PASSWORD`** – a random password for the database, e.g. generated with `openssl rand -hex 24`. Set it once and don't change it afterwards: the database takes it over on the first start.
-   - **`ACME_EMAIL`** – your email address; Let's Encrypt warns you there about expiring certificates
-   - **`BAZARPRO_VERSION`** – the version you want to install, at least `v2.0.0`. All versions are listed under [Releases](https://github.com/BazarPro/core/releases).
+   - **`ACME_EMAIL`** – your real email address; Let's Encrypt warns you there about expiring certificates. Let's Encrypt rejects `example.org` addresses like the one in the template, and you then get no certificate.
+   - **`BAZARPRO_VERSION`** – the version you want to install. A new installation needs at least `v2.3.0`: older versions don't create any categories, and without categories no bazaar can be created. All versions are listed under [Releases](https://github.com/BazarPro/core/releases).
    - **`BAZARPRO_MODE`** – `single` for one association (default) or `platform`, see above
    - **`ADMIN_EMAIL`** – the email address you'll sign up with in a moment. This account automatically becomes administrator.
    - **`AUTH_SMTP_…`** and **`AUTH_EMAIL_FROM`** – the credentials of your email account. The address in `AUTH_EMAIL_FROM` must match this account, otherwise the emails end up in spam. In `single` mode, BazarPro uses your association's name from the settings as the sender name.
@@ -78,7 +78,7 @@ For the vast majority of installations, `single` is right. The data is the same 
    docker compose -f docker-compose.selfhost.yml logs -f backend
    ```
 
-   As soon as it says **`listening`**, BazarPro is ready.
+   As soon as it says **`listening`**, the backend is ready. The website starts after that. If the browser shows `404 page not found` or a certificate warning during the first few seconds, reload the page shortly afterwards.
 
 5. **Create your account.** Open your domain in the browser, click **Sign up** – with the address from `ADMIN_EMAIL` – and confirm it with the code from the confirmation email. As soon as the address is confirmed, your account is administrator. After reloading the page, you find the **Admin** area in the role switcher in the sidebar.
 
@@ -98,7 +98,74 @@ For the vast majority of installations, `single` is right. The data is the same 
   - Check that your domain points to the server, e.g. with `dig +short basar.example.org`.
   - Let's Encrypt checks the domain via port 80. A firewall must not block it.
   - Errors while fetching certificates are shown by `docker compose -f docker-compose.selfhost.yml logs traefik`.
+  - If you keep getting `404 page not found`, the address you opened doesn't match `DOMAIN` in the `.env`. Via the server's IP address or `localhost` this message is normal, because Traefik only answers on the configured domain.
   - If the backend doesn't start, `docker compose -f docker-compose.selfhost.yml logs backend` shows why.
+</Aside>
+
+## Your own reverse proxy instead of Traefik
+
+If your server already runs a reverse proxy such as Caddy, it occupies ports 80 and 443. BazarPro then works without Traefik. Your proxy takes care of HTTPS and forwards `/api` to the backend and everything else to the app. You don't change the `docker-compose.selfhost.yml` for this.
+
+<Steps>
+
+1. **Create a second Compose file.** If your proxy runs in Docker itself, create a `docker-compose.proxy.yml` next to the `docker-compose.selfhost.yml`:
+
+   ```yaml
+   services:
+     app:
+       networks:
+         default:
+         proxy:
+           aliases: [bazarpro-app]
+     backend:
+       networks:
+         default:
+         proxy:
+           aliases: [bazarpro-backend]
+
+   networks:
+     proxy:
+       external: true
+       name: caddy_default # your proxy's network
+   ```
+
+   Enter your proxy's network under `name`; `docker network ls` lists all networks. Be sure to keep `default` in the list: without that network the backend can't find the database and stops with `failed to lookup address information`. You don't need fixed container names.
+
+2. **Start BazarPro without Traefik.** Fill in the `.env` as described above. `ACME_EMAIL` must be set but isn't used.
+
+   ```bash
+   docker compose -f docker-compose.selfhost.yml -f docker-compose.proxy.yml up -d app backend postgres
+   ```
+
+3. **Set up the proxy.** For Caddy it looks like this:
+
+   ```
+   basar.example.org {
+     reverse_proxy /api/* bazarpro-backend:3000
+     reverse_proxy bazarpro-app:8080
+   }
+   ```
+
+   With other proxies you have to enable WebSockets for `/api`, otherwise live updates won't work. Caddy does this on its own.
+
+</Steps>
+
+If your proxy runs directly on the server and not in Docker, the `docker-compose.proxy.yml` looks like this instead:
+
+```yaml
+services:
+  app:
+    ports:
+      - '127.0.0.1:8080:8080'
+  backend:
+    ports:
+      - '127.0.0.1:3000:3000'
+```
+
+Your proxy then forwards to `127.0.0.1:3000` (`/api`) and `127.0.0.1:8080` (everything else). If one of the ports is taken, change the first number.
+
+<Aside type="caution">
+  The commands on this page apply to the installation with Traefik. For `up -d` and `pull`, always add `-f docker-compose.proxy.yml`, and name the services `app backend postgres` for `up -d`. Otherwise Traefik starts as well and tries to take your proxy's ports.
 </Aside>
 
 ## After the installation: set up your association
@@ -124,6 +191,8 @@ Before you create the first bazaar, set up two things as an administrator:
   The templates for privacy policy and terms come from the bazarpro.de platform and are written in German for German law. They must be adapted to your association – the terms, for example, because your association is the organizer itself. Have the texts checked legally before publishing.
 </Aside>
 
+The **categories** that bazaars and items choose from are already there. You can change and extend them under **Admin › Categories**.
+
 Then, in the **Organizer** role, create your first bazaar, see [Create a bazaar](/en/veranstalter/basar-anlegen/). In `single` mode, a public bazaar is visible immediately; no approval is needed.
 
 BazarPro shows the app in German or English depending on the visitor's browser; everyone can switch the language themselves.
@@ -132,7 +201,7 @@ BazarPro shows the app in German or English depending on the visitor's browser; 
 
 BazarPro can count visitors with [Plausible Analytics](https://plausible.io) – without cookies. Plausible isn't included in BazarPro: you need your own Plausible installation ([Community Edition](https://github.com/plausible/community-edition)) or an account at plausible.io.
 
-Turn web analytics on under **Admin › Settings › Web analytics with Plausible**: enter the domain and Plausible server, activate, save. No restart needed. Alternatively, you can set `PLAUSIBLE_DOMAIN` and `PLAUSIBLE_API_HOST` in the `.env`. The settings in the admin area take precedence.
+Turn web analytics on under **Admin › Settings › Web analytics with Plausible**: enter the domain and Plausible server, activate, save. No restart needed. Alternatively, you can set `PLAUSIBLE_DOMAIN` and `PLAUSIBLE_API_HOST` in the `.env`. The settings in the admin area take precedence. Web analytics only runs when both values are known.
 
 If your privacy policy contains the line `{{webanalyse}}` (the template includes it), BazarPro automatically inserts a section about Plausible there while web analytics is active. If you use plausible.io, you also need a data processing agreement with the provider.
 
