@@ -223,7 +223,7 @@ async function organizer(browser, lang) {
   await shot(dialog, 'einladen-dialog', texts.dir);
   await page.keyboard.press('Escape');
 
-  // Settlement of a seller who sold something, with the print buttons
+  // Settlement of a seller who sold something, with the print menu open
   const res = await page.request.post(`${BASE_URL}/api/query/eventRoles.getVendorsForEvent`, {
     data: { eventId: bikeEvent._id },
   });
@@ -232,7 +232,8 @@ async function organizer(browser, lang) {
   if (!vendor) throw new Error('Demo-Verkäufer mit Verkäufen fehlt – Seed ausgeführt?');
   await open(page, `/events/view/${bikeEvent._id}/products?vendor=${vendor._id}`, texts);
   await page.getByRole('tab', { name: texts.settlement, exact: true }).click();
-  await page.mouse.move(0, 0);
+  await menu(texts.print);
+  await page.getByRole('menu').waitFor();
   await page.waitForTimeout(400);
   await shot(page, 'verkaeufer-abrechnung', texts.dir);
   await page.context().close();
