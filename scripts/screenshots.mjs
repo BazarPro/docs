@@ -28,12 +28,12 @@ const LOCALES = {
     dir: SCREENSHOT_DIR,
     stopTour: 'Beenden',
     next: 'Weiter',
-    kidsBazaar: 'Kinderbasar (Nummernbasar)',
-    eventTitle: 'Titel der Veranstaltung *',
-    location: 'Ort *',
+    kidsBazaar: 'Kinderbasar',
+    eventTitle: 'Titel des Basars *',
+    location: 'Veranstaltungsort *',
     contact: 'Kontaktdaten / Veranstalter-Info *',
-    summary: 'Alles im Blick',
-    join: /Als Verkäufer beitreten/,
+    summary: 'So sieht dein Basar aus',
+    join: /Als Verkäufer anmelden/,
     itemCode: 'Artikel-Code',
     demo: {
       title: 'Kinderkleiderbasar Frühjahr 2027',
@@ -47,12 +47,12 @@ const LOCALES = {
     dir: path.join(SCREENSHOT_DIR, 'en'),
     stopTour: 'End',
     next: 'Next',
-    kidsBazaar: "Children's bazaar (number bazaar)",
-    eventTitle: 'Event title *',
-    location: 'Location *',
+    kidsBazaar: "Children's bazaar",
+    eventTitle: 'Bazaar title *',
+    location: 'Venue *',
     contact: 'Contact details / organizer info *',
-    summary: 'Everything at a glance',
-    join: /Join as a seller/,
+    summary: 'This is your bazaar',
+    join: /Register as a seller/,
     itemCode: 'Item code',
     demo: {
       title: "Kids' clothing bazaar spring 2027",
@@ -109,8 +109,8 @@ async function open(page, route, texts) {
   // An active onboarding tour would cover the page
   const stop = page.getByRole('button', { name: texts.stopTour, exact: true });
   if (await stop.isVisible().catch(() => false)) await stop.click();
-  // The sticky app header would cover the top of element screenshots
-  await page.addStyleTag({ content: 'header.sticky { position: relative !important; }' });
+  // Sticky header and action bar would lie across element screenshots
+  await page.addStyleTag({ content: '.sticky { position: relative !important; bottom: auto !important; }' });
   await page.mouse.move(0, 0);
   await page.waitForTimeout(600);
 }
@@ -139,20 +139,21 @@ async function organizer(browser, lang) {
   // Creation wizard: kind of bazaar, then through to the summary
   await open(page, '/events/new', texts);
   await shot(page.locator('main'), 'basar-art', texts.dir);
-  await page.getByRole('button', { name: new RegExp(texts.kidsBazaar.replace(/[()]/g, '\\$&')) }).click();
+  await page.getByRole('button', { name: new RegExp(`^${texts.kidsBazaar}`) }).click();
+  const next = () => page.getByRole('button', { name: texts.next, exact: true }).click();
+  await next(); // sale
+  await next(); // items
+  await next(); // fees
+  await next(); // registration
+  await page.getByLabel(texts.eventTitle).waitFor(); // when and where
   await page.getByLabel(texts.eventTitle).fill(texts.demo.title);
   await page.locator('#description').fill(texts.demo.description);
   await page.getByLabel(texts.location).fill(texts.demo.location);
   await page.locator('#startDate').fill(inDays(30, 9));
   await page.locator('#endDate').fill(inDays(30, 14));
-  const next = () => page.getByRole('button', { name: texts.next, exact: true }).click();
-  await next(); // sale
-  await next(); // fees
   await page.getByLabel(texts.contact).fill(texts.demo.contact);
-  await next(); // items
-  await next(); // registration
   await next(); // hand-in and pickup
-  await next(); // summary
+  await next(); // preview
   await page.getByRole('heading', { name: texts.summary }).waitFor();
   await page.mouse.move(0, 0);
   await page.waitForTimeout(400);
