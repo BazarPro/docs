@@ -1,0 +1,123 @@
+---
+title: Universal labels
+description: How the reusable labels with colors, shapes and numbers work – set them up, sort items back and keep using the labels at the next bazaar.
+sidebar:
+  order: 3
+---
+
+import { Aside, Steps } from '@astrojs/starlight/components';
+import { Image } from 'astro:assets';
+import etiketten from '../../../../assets/etiketten/etiketten.png';
+import etikettenGross from '../../../../assets/etiketten/etiketten-gross.png';
+import etikettenGrau from '../../../../assets/etiketten/etiketten-gray.png';
+import legende from '../../../../assets/etiketten/legende.png';
+import sortierblatt from '../../../../assets/etiketten/sortierblatt.png';
+
+At the end of a bazaar, hundreds of items often have to go back to their sellers. **Universal labels** make this easier: instead of a seller number, the label has a mark made of colors, shapes and numbers. With it, helpers put items into the right basket in two steps.
+
+The mark belongs to the seller, never changes and exists only once. So their labels also work at the next bazaar, and they don't have to print them again.
+
+<Image src={etiketten} alt="Eight small labels with gray cut lines, QR code, title, size and price. Four of them carry the same framed mark: a light blue field with a heart and a large 7, next to it a purple cross with 66 and a purple star with 64. The label “Mütze” has the same pattern plus the letter A. The other three carry other marks." />
+
+Every label has a **gray line to cut along**. The mark has a frame, so you see at a glance what belongs together. On large labels, everything is centered one below the other:
+
+<Image src={etikettenGross} alt="Large labels with gray cut lines: the QR code on top, below it the title, the framed mark and size and price, all centered." />
+
+## Which label suits my bazaar?
+
+Under **Seller on the label** you choose how your team recognizes the items. The QR code is always on it and works the same with both options. The seller number is no longer on the label, because the label could not be reused otherwise.
+
+| Option | Sorting back | At the next bazaar | Suits |
+| --- | --- | --- | --- |
+| **Universal label** (default) | In two steps by the mark | Reuse | Almost every bazaar, in both formats |
+| **Nothing, QR code only** | Scan every item | Reuse | Few items that need no sorting |
+
+## Setting up
+
+Universal labels are the default everywhere, so you don't have to do anything. You can change this in the **Which items?** step or later under **Edit settings**.
+
+<Aside type="caution" title="Decide before printing">
+  A later change only applies to newly printed labels. So decide before your sellers print.
+</Aside>
+
+## How the mark is built
+
+Every mark has three parts. On the example label above, it is **7 · 66 · 64**:
+
+- **Large field (pile):** It has one of ten colors and shapes and shows the digit in large print. The field with the 7 is light blue with a heart. You first split the items into ten piles by it.
+- **Two marks next to it (basket):** Each shows a number from 00 to 99. The **first digit sets the color, the second the shape**. So 66 is a purple cross and 64 a purple star.
+- **Letter (rare):** It sits next to the digit and is only added once hardly any of the 100,000 marks without a letter are free (A, B, … Z, AA, …). So marks never run out.
+
+<Image src={legende} alt="Legend: on top ten color fields for the digits 0 to 9 (black, red, blue, green, yellow, orange, purple, light blue, pink, brown), below ten shapes for the digits 0 to 9 (circle, square, triangle, diamond, star, half circle, cross, heart, arrow, hourglass)." />
+
+Nobody has to learn this: when sorting, you only compare the label with the basket.
+
+Because every mark also shows its number, it works **in black and white** and for color-blind helpers. Without color, 47 and 57 look alike, for example, and the number decides:
+
+<Image src={etikettenGrau} alt="The same eight labels in grayscale. Shapes and numbers stay readable." />
+
+## Sorting items back
+
+<Image src={sortierblatt} alt="Two large sorting sheets: Anna Beispiel with 7, 66 and 64 and Ben Muster with the same pattern and the letter A. Both carry a note to check the letter." />
+
+<Steps>
+
+1. **Print the sorting sheets.** Under **Participants & helpers**, **Sorting sheets** downloads a PDF. It has one sheet per seller with the large mark, name and seller number, already in the right order.
+
+2. **Set up the baskets.** Put the matching sheet into each basket and line up the baskets in this order.
+
+3. **Pre-sort into ten piles.** Look only at the large field and put the unsold items on the matching pile.
+
+4. **Sort in.** Take a pile and put each item into the basket with the same two marks. Always compare both, because two baskets can share one mark.
+
+</Steps>
+
+### Printing all labels at once
+
+Under **Participants & helpers**, **All labels** creates a PDF with the item labels of all sellers, seller by seller. Sold and returned items are left out. This helps if your team prints the labels for the sellers.
+
+### Basket label for single baskets
+
+For a single basket, open the **drop-off**, choose the seller and print the label with **Print basket label**. Sellers print their own under **My items** with **Print basket label** and stick it on their basket.
+
+You also see the seller's mark there. Settlement works as usual, see [Settlement and return](/en/veranstalter/basartag/#settlement-and-return).
+
+## When two baskets look alike
+
+Two marks are never fully identical. But once letters exist, two sellers at a bazaar can have the same pattern and differ by the letter only, for example **7 · 66 · 64** and **7 · 66 · 64 A**.
+
+BazarPro then warns everyone involved:
+
+- **Sellers** see a note under **My items** and when printing labels. They need not change anything and point it out when handing in their items.
+- **The team** sees a note under **Participants & helpers**.
+- **The sorting sheets** of both baskets carry a note to check the letter.
+
+## Reusing labels
+
+The QR code leads to the item, not to the bazaar. So if an item stays unsold, the label can simply stay on:
+
+<Steps>
+
+1. The seller assigns the item to the next bazaar with **Add to event** under **My items**.
+
+2. They bring the item with the old label to the drop-off. It is scanned there like any other.
+
+</Steps>
+
+A label always belongs to **exactly one item**. For a new item, the seller prints a new one. So that no sheets go to waste, they can enter on every print under **First free place on the sheet** where to continue on a partly used sheet.
+
+## Frequently asked questions
+
+**Does the seller number still exist?** Yes. It is just no longer on the label. It stays in search, in the emails and on the sorting sheets.
+
+**Does anything change at the checkout?** No. Drop-off and checkout scan the QR code as always.
+
+**Can a seller change their mark?** No, and that is on purpose: only this way their printed labels stay valid.
+
+**Is a mark given out again when an account is deleted?** No. A mark is never given out twice, because printed labels may still be around.
+
+**Does the mark tell how old an account is?** No. Marks are given out at random, so a new bazaar does not start at 00 00 either.
+
+**Does every account get a mark?** No, only sellers: with their first item or their first bazaar.
+
+**Does the mark also work on other servers?** No. Marks and QR codes apply within one BazarPro installation. If you [self-host](/en/selbst-hosten/), you have your own marks, and labels from bazarpro.de don't work there.
