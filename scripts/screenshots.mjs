@@ -35,6 +35,11 @@ const LOCALES = {
     summary: 'So sieht dein Basar aus',
     join: /Als Verkäufer anmelden/,
     itemCode: 'Artikel-Code',
+    add: 'Hinzufügen',
+    print: 'Drucken',
+    invite: 'Per E-Mail einladen',
+    settlement: 'Abrechnung',
+    inviteEmail: 'anna.beispiel@example.org',
     demo: {
       title: 'Kinderkleiderbasar Frühjahr 2027',
       description: 'Kinderkleidung, Spielzeug und Babyausstattung aus zweiter Hand.',
@@ -54,6 +59,11 @@ const LOCALES = {
     summary: 'This is your bazaar',
     join: /Register as a seller/,
     itemCode: 'Item code',
+    add: 'Add',
+    print: 'Print',
+    invite: 'Invite by email',
+    settlement: 'Settlement',
+    inviteEmail: 'anna.example@example.org',
     demo: {
       title: "Kids' clothing bazaar spring 2027",
       description: 'Second-hand kids’ clothes, toys and baby gear.',
@@ -75,9 +85,9 @@ async function apiQuery(fn, args) {
   return body.value;
 }
 
-async function newPage(browser, lang) {
+async function newPage(browser, lang, viewport = { width: 1280, height: 800 }) {
   const context = await browser.newContext({
-    viewport: { width: 1280, height: 800 },
+    viewport,
     deviceScaleFactor: 2,
     reducedMotion: 'reduce',
     locale: LOCALES[lang].browser,
@@ -110,7 +120,7 @@ async function open(page, route, texts) {
   const stop = page.getByRole('button', { name: texts.stopTour, exact: true });
   if (await stop.isVisible().catch(() => false)) await stop.click();
   // Sticky header and action bar would lie across element screenshots
-  await page.addStyleTag({ content: '.sticky { position: relative !important; bottom: auto !important; }' });
+  await page.addStyleTag({ content: '.sticky { position: relative !important; top: auto !important; bottom: auto !important; }' });
   await page.mouse.move(0, 0);
   await page.waitForTimeout(600);
 }
@@ -141,19 +151,31 @@ async function organizer(browser, lang) {
   await shot(page.locator('main'), 'basar-art', texts.dir);
   await page.getByRole('button', { name: new RegExp(`^${texts.kidsBazaar}`) }).click();
   const next = () => page.getByRole('button', { name: texts.next, exact: true }).click();
-  await next(); // sale
-  await next(); // items
-  await next(); // fees
-  await next(); // registration
-  await page.getByLabel(texts.eventTitle).waitFor(); // when and where
+  const step = async (name) => {
+    await page.mouse.move(0, 0);
+    await page.waitForTimeout(400);
+    await shot(page.locator('main'), name, texts.dir);
+  };
+  // The kind of bazaar leads straight to the first step
+  await step('wizard-verkauf');
+  await next();
+  await step('wizard-artikel');
+  await next();
+  await step('wizard-gebuehren');
+  await next();
+  await step('wizard-mitmachen');
+  await next();
   await page.getByLabel(texts.eventTitle).fill(texts.demo.title);
   await page.locator('#description').fill(texts.demo.description);
   await page.getByLabel(texts.location).fill(texts.demo.location);
   await page.locator('#startDate').fill(inDays(30, 9));
   await page.locator('#endDate').fill(inDays(30, 14));
   await page.getByLabel(texts.contact).fill(texts.demo.contact);
-  await next(); // hand-in and pickup
-  await next(); // preview
+  await page.getByLabel(texts.contact).blur();
+  await step('wizard-termin');
+  await next();
+  await step('wizard-abgabe');
+  await next();
   await page.getByRole('heading', { name: texts.summary }).waitFor();
   await page.mouse.move(0, 0);
   await page.waitForTimeout(400);
@@ -175,7 +197,52 @@ async function organizer(browser, lang) {
   await page.mouse.move(0, 0);
   await page.waitForTimeout(800);
   await shot(page.locator('main'), 'kasse', texts.dir);
+
+  // Overview with the next steps of the bazaar
+  await open(page, `/events/view/${bikeEvent._id}`, texts);
+  await shot(page, 'basar-uebersicht', texts.dir);
+
+  // Sellers: both menus, and the invitation
+  await open(page, `/events/view/${bikeEvent._id}/sellers`, texts);
+  const menu = (name) => page.getByRole('button', { name, exact: true }).click();
+  await menu(texts.print);
+  await page.getByRole('menu').waitFor();
+  await shot(page, 'verkaeufer-drucken', texts.dir);
+  await page.keyboard.press('Escape');
+  await menu(texts.add);
+  await page.getByRole('menu').waitFor();
+  await shot(page, 'verkaeufer-hinzufuegen', texts.dir);
+  await page.getByRole('menuitem', { name: texts.invite }).click();
+  const dialog = page.getByRole('dialog');
+  await dialog.waitFor();
+  await dialog.locator('input[type="email"]').fill(texts.inviteEmail);
+  await page.evaluate(() =>
+    document.activeElement instanceof HTMLElement ? document.activeElement.blur() : null
+  );
+  await page.waitForTimeout(300);
+  await shot(dialog, 'einladen-dialog', texts.dir);
+  await page.keyboard.press('Escape');
+
+  // Settlement of a seller who sold something, with the print buttons
+  const res = await page.request.post(`${BASE_URL}/api/query/eventRoles.getVendorsForEvent`, {
+    data: { eventId: bikeEvent._id },
+  });
+  const vendors = (await res.json()).value;
+  const vendor = vendors.find((v) => v.totalRevenue > 0);
+  if (!vendor) throw new Error('Demo-Verkäufer mit Verkäufen fehlt – Seed ausgeführt?');
+  await open(page, `/events/view/${bikeEvent._id}/products?vendor=${vendor._id}`, texts);
+  await page.getByRole('tab', { name: texts.settlement, exact: true }).click();
+  await page.mouse.move(0, 0);
+  await page.waitForTimeout(400);
+  await shot(page, 'verkaeufer-abrechnung', texts.dir);
   await page.context().close();
+
+  // On phones: tab bar with the scanner in the middle
+  const phone = await newPage(browser, lang, { width: 390, height: 780 });
+  await login(phone, 'user1@bazarpro.de', lang);
+  await open(phone, `/events/view/${bikeEvent._id}`, texts);
+  await shot(phone, 'handy-navigation', texts.dir);
+  await phone.context().close();
 }
 
 async function seller(browser, lang, sellerEvent) {
