@@ -40,10 +40,18 @@ const LOCALES = {
     invite: 'Per E-Mail einladen',
     settlement: 'Abrechnung',
     inviteEmail: 'anna.beispiel@example.org',
+    moreFor: (name) => `Weitere Aktionen für ${name}`,
+    appointHelper: 'Helfer ernennen',
+    addItems: 'Artikel hinzufügen',
+    importCsv: 'Aus CSV-Datei importieren',
+    csv: 'Artikel;Preis;Zustand\nKinderrad Puky 16 Zoll;35;Gebraucht\nKinderrad Cube 20 Zoll;89;Wie neu\nJugendrad Ghost 24 Zoll;149;Gebraucht\nJugendrad Scott 26 Zoll;179;Neu\n',
+    bikes: 'Fahrräder',
+    kidsBikes: 'Kinder- & Jugendräder',
     demo: {
       title: 'Kinderkleiderbasar Frühjahr 2027',
       description: 'Kinderkleidung, Spielzeug und Babyausstattung aus zweiter Hand.',
-      location: 'Gemeindesaal St. Michael, Ulm',
+      location: 'Gemeindesaal St. Michael',
+      street: 'Münsterplatz 1',
       contact: 'basar@kita-sonnenschein.de',
     },
   },
@@ -64,10 +72,18 @@ const LOCALES = {
     invite: 'Invite by email',
     settlement: 'Settlement',
     inviteEmail: 'anna.example@example.org',
+    moreFor: (name) => `More actions for ${name}`,
+    appointHelper: 'Make helper',
+    addItems: 'Add items',
+    importCsv: 'Import from a CSV file',
+    csv: 'Item;Price;Condition\nKids bike Puky 16 inch;35;Used\nKids bike Cube 20 inch;89;Like new\nYouth bike Ghost 24 inch;149;Used\nYouth bike Scott 26 inch;179;New\n',
+    bikes: 'Bikes',
+    kidsBikes: "Children's & youth bikes",
     demo: {
       title: "Kids' clothing bazaar spring 2027",
       description: 'Second-hand kids’ clothes, toys and baby gear.',
-      location: 'St. Michael parish hall, Ulm',
+      location: 'St. Michael parish hall',
+      street: 'Münsterplatz 1',
       contact: 'bazaar@sunshine-daycare.org',
     },
   },
@@ -131,12 +147,11 @@ async function shot(target, name, dir) {
   console.log(`✓ ${path.relative(process.cwd(), file)}`);
 }
 
-/** Date in a datetime-local input, some days from now. */
-function inDays(days, hour) {
+/** Day in a date input, some days from now. */
+function inDays(days) {
   const date = new Date(Date.now() + days * 86_400_000);
-  date.setHours(hour, 0, 0, 0);
   const pad = (n) => String(n).padStart(2, '0');
-  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(hour)}:00`;
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
 }
 
 async function organizer(browser, lang) {
@@ -156,7 +171,18 @@ async function organizer(browser, lang) {
     await page.waitForTimeout(400);
     await shot(page.locator('main'), name, texts.dir);
   };
-  // The kind of bazaar leads straight to the first step
+  // The kind of bazaar leads straight to "When and where?": the other times follow the date
+  await page.locator('#title').fill(texts.demo.title);
+  await page.locator('#startDay').fill(inDays(30));
+  await page.locator('#startTime').fill('09:00');
+  await page.locator('#endTime').fill('14:00');
+  await page.locator('#location').fill(texts.demo.location);
+  await page.locator('#street').fill(texts.demo.street);
+  await page.locator('#postalCode').fill('89073');
+  await page.locator('#city').fill('Ulm');
+  await page.locator('#city').blur();
+  await step('wizard-termin');
+  await next();
   await step('wizard-verkauf');
   await next();
   await step('wizard-artikel');
@@ -165,16 +191,12 @@ async function organizer(browser, lang) {
   await next();
   await step('wizard-mitmachen');
   await next();
-  await page.getByLabel(texts.eventTitle).fill(texts.demo.title);
+  await step('wizard-abgabe');
+  await next();
   await page.locator('#description').fill(texts.demo.description);
-  await page.getByLabel(texts.location).fill(texts.demo.location);
-  await page.locator('#startDate').fill(inDays(30, 9));
-  await page.locator('#endDate').fill(inDays(30, 14));
   await page.getByLabel(texts.contact).fill(texts.demo.contact);
   await page.getByLabel(texts.contact).blur();
-  await step('wizard-termin');
-  await next();
-  await step('wizard-abgabe');
+  await step('wizard-beschreibung');
   await next();
   await page.getByRole('heading', { name: texts.summary }).waitFor();
   await page.mouse.move(0, 0);
@@ -236,6 +258,55 @@ async function organizer(browser, lang) {
   await page.getByRole('menu').waitFor();
   await page.waitForTimeout(400);
   await shot(page, 'verkaeufer-abrechnung', texts.dir);
+  await page.keyboard.press('Escape');
+
+  // What a helper may do at the bazaar: the dialog of the appointment, closed unsaved
+  const helper = vendors.find((v) => !v.isHelper && !v.managedByEventId && v.totalRevenue > 0);
+  if (!helper) throw new Error('Demo-Verkäufer mit Konto fehlt – Seed ausgeführt?');
+  await open(page, `/events/view/${bikeEvent._id}/products?vendor=${helper._id}`, texts);
+  await page.getByRole('button', { name: texts.moreFor(helper.name) }).click();
+  await page.getByRole('menuitem', { name: texts.appointHelper }).click();
+  const helperDialog = page.getByRole('alertdialog');
+  await helperDialog.waitFor();
+  await page.waitForTimeout(400);
+  await shot(helperDialog, 'helfer-rechte', texts.dir);
+  await page.keyboard.press('Escape');
+
+  // Items of a seller without account from a shop's list
+  const walkIn = vendors.find((v) => v.managedByEventId === bikeEvent._id && !v.paid);
+  if (!walkIn) throw new Error('Demo-Verkäufer ohne Konto fehlt – Seed ausgeführt?');
+  // Tall enough for the whole dialog with its preview
+  await page.setViewportSize({ width: 1280, height: 1500 });
+  await open(page, `/events/view/${bikeEvent._id}/products?vendor=${walkIn._id}`, texts);
+  await menu(texts.addItems).catch(() =>
+    page.getByRole('button', { name: new RegExp(texts.addItems) }).click()
+  );
+  await page.getByRole('menuitem', { name: texts.importCsv }).click();
+  const importDialog = page.getByRole('dialog');
+  await importDialog.waitFor();
+  await importDialog.locator('input[type="file"]').setInputFiles({
+    name: 'artikel.csv',
+    mimeType: 'text/csv',
+    buffer: Buffer.from(texts.csv),
+  });
+  // Rows without a category of their own get the one picked for all
+  await importDialog.locator('#walk-in-import-category').click();
+  // With one main category its group is open already, a click would close it
+  const kidsBikes = page.getByRole('menuitem', { name: texts.kidsBikes, exact: true });
+  await page.getByRole('menu').waitFor();
+  if (!(await kidsBikes.isVisible())) {
+    await page.getByRole('menuitem', { name: new RegExp(`^${texts.bikes}`) }).first().click();
+  }
+  await kidsBikes.click();
+  await page.waitForTimeout(800);
+  await shot(importDialog, 'csv-import', texts.dir);
+  await page.keyboard.press('Escape');
+  await page.setViewportSize({ width: 1280, height: 800 });
+
+  // Posters, flyers and pictures for social media
+  await open(page, `/events/view/${bikeEvent._id}/promo`, texts);
+  await page.waitForTimeout(1500);
+  await shot(page, 'werbung', texts.dir);
   await page.context().close();
 
   // On phones: tab bar with the scanner in the middle
@@ -308,7 +379,10 @@ async function main() {
   const sellerEvent = events.find((e) => e.title === 'Großer Winterflohmarkt 2026');
   if (!sellerEvent) throw new Error('Demo-Event "Großer Winterflohmarkt 2026" fehlt – Seed ausgeführt?');
 
-  const browser = await chromium.launch({ args: fakeCameraArgs() });
+  // Date and time inputs follow the language of the browser, not of the page
+  const launch = (lang) =>
+    chromium.launch({ args: [...fakeCameraArgs(), `--lang=${LOCALES[lang].browser}`] });
+  let browser = await launch('de');
 
   // Bike + phone scene from the landing page hero (without demo banner)
   // Lands in public/: Starlight's hero `image.file` would crop it to a 400x400 square
@@ -324,6 +398,10 @@ async function main() {
   }
 
   for (const lang of Object.keys(LOCALES)) {
+    if (lang !== 'de') {
+      await browser.close();
+      browser = await launch(lang);
+    }
     await mkdir(LOCALES[lang].dir, { recursive: true });
     await organizer(browser, lang);
     await seller(browser, lang, sellerEvent);
