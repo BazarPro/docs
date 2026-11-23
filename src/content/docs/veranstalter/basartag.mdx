@@ -23,6 +23,19 @@ Auf dem Handy liegt das Menü unten als Leiste. **Scannen** in der Mitte öffnet
 
 ## Vorher: Verkäufer informieren und Helfer einteilen
 
+### Werbung
+
+Unter **Werbung** erstellt BazarPro aus den Angaben deines Basars Plakate, Flyer und Bilder für Social Media. Du findest die Seite auch in der Übersicht unter **Werbung machen**.
+
+![Seite „Werbung“ mit einem Plakat als Vorschau und der Auswahl von Format, Zielgruppe und Design](../../../assets/screenshots/werbung.png)
+
+- **Format** – **Plakat** (A4 oder A3), **Flyer** (zwei pro A4-Blatt, auf Wunsch mit Rückseite), **Beitrag** und **Story** für Social Media oder ein **Banner**.
+- **Für** – **Besucher**, **Verkäufer** oder **Helfer**. Je nach Zielgruppe ändern sich Überschrift, Inhalte und der Text am QR-Code, der zu deinem Basar führt.
+- **Design und Farbe** – vier Designs, darunter **Sparsam** mit wenig Farbe für den eigenen Drucker.
+- **Texte, Inhalte und Bild** – passe Überschrift und Texte an und wähle, welche Blöcke erscheinen, etwa „Das gibt es“, „So verkaufst du“ oder „Anfahrt und Parken“. Statt des Basarbilds kannst du ein eigenes Bild nehmen, es bleibt auf deinem Gerät.
+
+Deine Texte speichert BazarPro beim Basar. Mit **PDF herunterladen** oder **Bild herunterladen** bekommst du die Datei, mit **Link teilen** schickst du den Link zum Basar weiter.
+
 ### Verkäufer und Helfer einladen
 
 Unter **Verkäufer** wählst du **Hinzufügen** und dann **Per E-Mail einladen**. Das ist Sache des Veranstalters, Helfer sehen den Punkt nicht.
@@ -62,7 +75,17 @@ Oben unter **Verkäufer** zeigt der Kasten **Anmeldung**, ob sich Verkäufer ger
 
 Die Mail am Vorabend und die Erinnerung zur Abholung verschickt BazarPro von selbst, siehe [Automatische Mails an Verkäufer](/veranstalter/basar-anlegen/#automatische-mails-an-verkäufer).
 
-**Helfer.** Unter **Verkäufer** machst du Verkäufer mit **Als Helfer ernennen** zu Helfern, oder du suchst sie über **Hinzufügen** und **Helfer hinzufügen** nach Name, E-Mail oder Nummer. Helfer brauchen ein eigenes Konto. Sie können Ware annehmen, an der Kasse verkaufen, abrechnen sowie QR-Codes und Rechnungen drucken. Einstellungen ändern oder den Basar löschen können sie nicht.
+**Helfer.** Unter **Verkäufer** machst du Verkäufer mit **Als Helfer ernennen** zu Helfern, oder du suchst sie über **Hinzufügen** und **Helfer hinzufügen** nach Name, E-Mail oder Nummer. Helfer brauchen ein eigenes Konto. Beim Ernennen wählst du, was die Person bei deinem Basar tun darf:
+
+![Dialog „Helfer ernennen“ mit den Rechten Warenannahme, Kasse, Rückgabe, Abrechnung und Kassensturz](../../../assets/screenshots/helfer-rechte.png)
+
+- **Warenannahme** – Artikel annehmen und Verkäufer vor Ort anlegen
+- **Kasse** – Verkäufe erfassen und stornieren
+- **Rückgabe** – Artikel an Verkäufer zurückgeben
+- **Abrechnung und Auszahlung** an Verkäufer
+- **Kassensturz und Abrechnungs-Export** einsehen
+
+Artikel und Teilnehmer ansehen sowie Etiketten und Belege drucken dürfen alle Helfer. So kann zum Beispiel jemand nur an der Kasse stehen, ohne Geld auszuzahlen. Die Rechte änderst du später unter **Artikel** im Menü **…** des Helfers mit **Helfer-Rechte ändern**. Einstellungen ändern, Verkäufer einladen oder den Basar löschen können Helfer nicht.
 
 ## Annahme
 
@@ -84,7 +107,30 @@ Ab der Annahme ist ein Artikel **Erhältlich** und für den Verkäufer gesperrt.
 
 **Suchen nach Nummer:** Gib „17“, „Nr. 17“ oder „#17“ ins Suchfeld ein, dann siehst du genau die Artikel von Verkäufer 17.
 
-**Spontane Verkäufer ohne Konto** legst du unter **Verkäufer** über **Hinzufügen** und **Verkäufer ohne Konto** an. Unter **Artikel** erfasst du ihre Artikel im Tab **Annahme** mit **Artikel erfassen**, mit **Speichern & nächster** auch viele hintereinander. Solange nichts verkauft ist, kannst du diese Artikel bearbeiten oder löschen.
+### Verkäufer ohne Konto
+
+Spontane Verkäufer ohne Konto, etwa ein Fahrradladen oder jemand, der ohne Anmeldung vorbeikommt, legst du unter **Verkäufer** über **Hinzufügen** und **Verkäufer ohne Konto** an. Eine E-Mail-Adresse ist freiwillig, dorthin geht dann die Nachricht über Verkäufe.
+
+Ihre Artikel erfasst du in den Details des Verkäufers unter **Artikel** mit **Artikel hinzufügen**:
+
+- **Einzeln erfassen** – ein Artikel nach dem anderen, mit **Speichern & nächster** auch viele hintereinander.
+- **Aus CSV-Datei importieren** – die ganze Liste auf einmal, zum Beispiel die Artikelliste eines Geschäfts aus einer Tabellenkalkulation.
+
+![Dialog „Artikel importieren“ mit der Zuordnung der Spalten, der Kategorie für alle Zeilen und der Vorschau der Artikel](../../../assets/screenshots/csv-import.png)
+
+<Steps>
+
+1. **Datei wählen.** Die erste Zeile der CSV-Datei enthält die Spaltennamen, jede weitere Zeile ist ein Artikel.
+
+2. **Spalten zuordnen.** BazarPro erkennt die meisten Spalten selbst. Prüfe für jede Spalte, ob sie **Titel**, **Preis**, **Kategorie**, **Zustand**, **Größe** oder **Beschreibung** ist, oder wähle **Nicht übernehmen**. Titel und Preis sind Pflicht.
+
+3. **Fehlendes ergänzen.** Unter **Für Zeilen ohne eigene Angabe** wählst du eine Kategorie und einen Zustand für alle Zeilen, in denen die Datei keine hat.
+
+4. **Importieren.** Die Vorschau zeigt alle Artikel, die übernommen werden. Zeilen mit Fehlern, etwa ohne Titel oder mit einem Preis, der keine Zahl ist, listet BazarPro mit Zeilennummer auf und überspringt sie. Klappt etwas nicht, wird gar nichts angelegt.
+
+</Steps>
+
+Die Artikel stehen danach als **Angemeldet** beim Verkäufer. Nimm sie wie gewohnt an und drucke die Etiketten. Solange nichts verkauft ist, kannst du sie bearbeiten oder löschen.
 
 ## Kasse
 
@@ -105,6 +151,14 @@ Die **Kasse** öffnest du im Menü deines Basars. Sie ist für alle Artikel eine
 <Aside type="caution" title="Rot markierte Artikel">
   Ist ein Artikel schon verkauft (z. B. an einer anderen Kasse), nicht angenommen oder gehört er nicht zu deinem Basar, markiert die Kasse ihn rot. Entferne ihn aus dem Warenkorb, dann kannst du abschließen. Es wird immer alles oder nichts verkauft.
 </Aside>
+
+### Ohne Internet
+
+Fällt in der Halle das Netz aus, arbeiten Kasse und Warenannahme in der **BazarPro-App** für iOS und Android weiter. Die App lädt den Basar vorher auf das Gerät, die Übersicht zeigt dann **Offline bereit** mit der Zahl der Artikel und dem Stand. Mit **Jetzt laden** holst du den neuesten Stand, zum Beispiel morgens vor der Öffnung. Im Browser geht das nicht, weil er die Seite ohne Internet gar nicht erst lädt.
+
+- Ohne Verbindung zeigt die App **Offline – zuletzt geladener Stand**. Verkäufe und Annahmen speichert sie auf dem Gerät und bucht sie nach, sobald wieder Internet da ist. Alles andere, etwa die Abrechnung, geht erst wieder mit Internet.
+- Der **digitale Ausweis** der Verkäufer funktioniert auch offline, wenn sie ihn einmal mit Internet geöffnet haben.
+- Geht ein Gerät des Teams verloren, machst du mit **Ausweis-Codes erneuern** die alten Codes der Ausweise ungültig.
 
 ## Abrechnung und Rückgabe
 
@@ -138,7 +192,9 @@ Vor allem Verkäufer ohne Konto sehen ihre Artikel und ihre Abrechnung nicht onl
 
 ## Abrechnung des Basars
 
-Unter **Abrechnung** im Menü siehst du, wie viel Bargeld jetzt in der Kasse sein sollte, und wie es sich aufteilt: noch offene Auszahlungen, Provision und Annahmegebühren. Dazu, wie viele Verkäufer schon abgerechnet sind und wer noch eine Annahmegebühr zahlen muss.
+Unter **Abrechnung** im Menü siehst du, wie viel Bargeld jetzt in der Kasse sein sollte, und wie es sich aufteilt: noch offene Auszahlungen, Provision und Annahmegebühren. Dazu, wie viele Verkäufer schon abgerechnet sind und wer noch eine Annahmegebühr zahlen muss. Direktverkäufe, Rabatte und was der Gebühren-Deckel zurückgibt, stehen getrennt.
+
+**Abrechnung exportieren.** Als Veranstalter musst du die Abrechnung aufbewahren (§ 147 AO). Unter **Abrechnung exportieren** lädst du sie als **PDF** herunter, oder als Tabelle (CSV) getrennt nach **Verkäufern** und **Verkäufen**. BazarPro löscht die Abrechnung 8 Jahre nach Ende des Jahres, in dem der Basar war. Lege die Dateien zu deinen Unterlagen und bewahre sie sicher auf, sie enthalten Namen und Anschriften der Verkäufer.
 
 ## Nachweis der angebotenen Artikel
 

@@ -23,6 +23,19 @@ On phones the menu is a bar at the bottom. **Scan** in the middle opens the scan
 
 ## Before: inform sellers and assign helpers
 
+### Promotion
+
+Under **Promotion**, BazarPro makes posters, flyers and pictures for social media from the details of your bazaar. The overview also leads there with **Promote**.
+
+![Page “Promotion” with a poster as preview and the choice of format, audience and design](../../../../assets/screenshots/en/werbung.png)
+
+- **Format** – **Poster** (A4 or A3), **Flyer** (two per A4 sheet, with a back side if you like), **Post** and **Story** for social media, or a **Banner**.
+- **For** – **Visitors**, **Sellers** or **Helpers**. The heading, the contents and the text next to the QR code, which leads to your bazaar, follow the audience.
+- **Design and colour** – four designs, among them **Ink saver** with little colour for your own printer.
+- **Texts, contents and picture** – adjust the heading and texts and choose which blocks appear, such as “What's on offer”, “How to sell” or “Getting there”. Instead of the bazaar's picture you can use your own; it stays on your device.
+
+BazarPro saves your texts with the bazaar. **Download PDF** or **Download picture** gives you the file, **Share link** sends the link to the bazaar.
+
 ### Invite sellers and helpers
 
 Under **Sellers**, choose **Add** and then **Invite by email**. This is up to the organizer, helpers don't see it.
@@ -62,7 +75,17 @@ At the top of **Sellers**, the **Registration** box shows whether sellers can re
 
 BazarPro sends the email the evening before and the pickup reminder by itself, see [Automatic emails to sellers](/en/veranstalter/basar-anlegen/#automatic-emails-to-sellers).
 
-**Helpers.** Under **Sellers**, **Make helper** turns sellers into helpers, or **Add** and **Add helper** let you search by name, email or number. Helpers need their own account. They can accept items, sell at the cash desk, settle up and print QR codes and invoices. They can't change settings or delete the bazaar.
+**Helpers.** Under **Sellers**, **Make helper** turns sellers into helpers, or **Add** and **Add helper** let you search by name, email or number. Helpers need their own account. When you appoint someone, you choose what they may do at your bazaar:
+
+![Dialog “Make helper” with the rights intake, cash desk, return, settlement and cash summary](../../../../assets/screenshots/en/helfer-rechte.png)
+
+- **Intake** – accept items and add sellers on site
+- **Cash desk** – record and cancel sales
+- **Return** – give items back to sellers
+- **Settle and pay out** sellers
+- **See the cash summary and the settlement export**
+
+All helpers may view items and participants and print labels and receipts. So someone can work the cash desk without paying out money, for example. You change the rights later under **Items** in the helper's **…** menu with **Change helper rights**. Helpers can't change settings, invite sellers or delete the bazaar.
 
 ## Intake
 
@@ -84,7 +107,30 @@ From intake on, an item is **Available** and locked for the seller.
 
 **Search by number:** Type “17”, “Nr. 17” or “#17” into the search field to see exactly the items of seller 17.
 
-**Walk-in sellers without an account** are added under **Sellers** with **Add** and **Seller without account**. Under **Items**, **Add item** on the **Intake** tab records their items, and **Save & next** lets you enter many in a row. As long as nothing is sold, you can edit or delete these items.
+### Sellers without an account
+
+Walk-in sellers without an account, such as a bike shop or someone who turns up without registering, are added under **Sellers** with **Add** and **Seller without account**. An email address is optional; if given, the notices about sales go there.
+
+You record their items in the seller's details under **Items** with **Add items**:
+
+- **Record one by one** – one item after the other, with **Save & next** also many in a row.
+- **Import from a CSV file** – the whole list at once, for example a shop's item list from a spreadsheet.
+
+![Dialog “Import items” with the mapping of the columns, the category for all rows and the preview of the items](../../../../assets/screenshots/en/csv-import.png)
+
+<Steps>
+
+1. **Choose the file.** The first line of the CSV file holds the column names, every further line is an item.
+
+2. **Map the columns.** BazarPro recognises most columns by itself. Check for each column whether it is the **Title**, **Price**, **Category**, **Condition**, **Size** or **Description**, or choose **Skip**. Title and price are required.
+
+3. **Fill the gaps.** Under **For rows without their own value** you pick a category and a condition for all rows the file has none for.
+
+4. **Import.** The preview shows every item that will be created. Rows with errors, such as a missing title or a price that is not a number, are listed with their line number and skipped. If the import fails, nothing is created.
+
+</Steps>
+
+The items are then **Announced** for the seller. Accept them as usual and print the labels. As long as nothing is sold, you can edit or delete them.
 
 ## Cash desk
 
@@ -105,6 +151,14 @@ Open the **Cash desk** in your bazaar's menu. It is made for all items of one bu
 <Aside type="caution" title="Items marked in red">
   If an item is already sold (e.g. at another cash desk), not accepted, or doesn't belong to your bazaar, the cash desk marks it in red. Remove it from the cart, then you can complete the sale. It's always all or nothing.
 </Aside>
+
+### Without internet
+
+If the network fails in the hall, the cash desk and intake keep working in the **BazarPro app** for iOS and Android. The app loads the bazaar onto the device beforehand; the overview then shows **Ready for offline** with the number of items and the time. **Load now** fetches the latest state, for example in the morning before opening. This does not work in the browser, which cannot even load the page without internet.
+
+- Without a connection the app shows **Offline – last loaded state**. It stores sales and intakes on the device and books them as soon as there is internet again. Everything else, such as settlement, needs internet.
+- The sellers' **digital ID** works offline too once they have opened it with internet.
+- If a device of the team gets lost, **Renew ID codes** makes the old codes of the IDs invalid.
 
 ## Settlement and return
 
@@ -138,7 +192,9 @@ Sellers without an account in particular can't see their items and settlement on
 
 ## Settlement of the bazaar
 
-**Settlement** in the menu shows how much cash should be in the till now and how it splits up: payouts still open, commission and intake fees. It also shows how many sellers are settled and who still has to pay an intake fee.
+**Settlement** in the menu shows how much cash should be in the till now and how it splits up: payouts still open, commission and intake fees. It also shows how many sellers are settled and who still has to pay an intake fee. Direct sales, discounts and what the fee cap gives back are shown separately.
+
+**Export settlement.** As the organizer you have to keep the settlement (in Germany under § 147 AO). Under **Export settlement** you download it as a **PDF**, or as tables (CSV) of the **sellers** and the **sales**. BazarPro deletes the settlement 8 years after the end of the year of the bazaar. File the downloads with your records and keep them safe: they contain the sellers' names and addresses.
 
 ## Record of offered items
 
